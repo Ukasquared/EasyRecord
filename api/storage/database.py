@@ -1,0 +1,1 @@
+mysql+mysqldb://<user>:<password>@<host>[:<port>]/<dbname>
