@@ -1,17 +1,17 @@
 #!/usr/bin/python3
 """attendance class"""
 from models import Base
+from models.base import BaseModel
 from sqlalchemy import Column, String, DateTime, ForeignKey, Boolean
 import uuid
 # from datetime import datetime
 
 
-class Attendance(Base):
+class Attendance(Base, BaseModel):
     """Attendance of
     students"""
     __table__ = "attendance"
 
-    id = Column(String(40), primary_key=True, default=lambda: str(uuid.uuid4()))
     student_id = Column(String(40), ForeignKey('student.id'))
     date = Column(DateTime)
     status = Column(Boolean, default=False)
