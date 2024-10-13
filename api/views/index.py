@@ -1,10 +1,24 @@
 from views import app_routes
 from flask import request
+from werkzeug.utils import secure_filename
 from api.auth import Auth
 from flask import abort, jsonify, redirect
+from flask_jwt_extended import create_access_token
+from datetime import timedelta
+import os
 
 
-@app_routes.route('/login', methods=['POST'])
+
+upload_folder = 'api/files/'
+ALLOWED_EXTENSIONS = {'jpeg', 'jpg', 'png'}
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    
+
+@app_routes.route('/login', methods=['POST'], strict_slashes=False)
 def login_user():
     """log a user in"""
     email = request.form['email']
@@ -16,11 +30,14 @@ def login_user():
         if not state:
             abort(407)
         session_id = Auth.create_session(email, role)
-        response = jsonify('login succesful')
+        # create a jwt token with the users role included
+        access_token = create_access_token(identity={'role': role}, expires_delta=(timedelta(minutes=30)))
+        response = jsonify(access_token=access_token)
         response.set_cookie("session_id", session_id)
         return response, 200
 
-@app_routes.route('/logout', methods=['DELETE'])
+
+@app_routes.route('/logout', methods=['DELETE'], strict_slashes=False)
 def logout_user():
     """ logout a user by 
     destroying the
@@ -33,7 +50,8 @@ def logout_user():
     else:
         abort(403)
 
-app_routes.route('/reset_password', methods=['POST, PUT'])
+
+@app_routes.route('/reset_password', methods=['POST, PUT'], strict_slashes=False)
 def reset_password():
     """reset 
     password"""
@@ -52,3 +70,26 @@ def reset_password():
             Auth.update_password(token, password)
         except:
             abort(403)
+
+
+# send and save file in the file system
+# this should hand also sign up
+@app_routes.route('/sign_up', methods=['POST'], strict_slashes=False)
+def sign_up():
+    """uploads, 
+    a picture to 
+    dashboard"""
+    if request.method == 'POST':
+        form_data = dict(request.form)
+        if 'photo' not in request.files:
+            return jsonify({"error": "No file part in the request"}), 400
+        file = request.files.get('photo')
+        if file.filename == '':
+            return jsonify({"error": "no file was uploaded"}), 400
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(upload_folder, filename))
+        form_data['photo'] = filename
+        Auth.register_user(form_data)
+        return jsonify({'message': 'registration successsfully'}), 200
+    abort(403)

@@ -25,13 +25,13 @@ class Auth:
     user_model = {'admin': Admin, 'student': Student,
               'parent': Parent, 'teacher': Teacher}
 
-    def register_user(self, pass_word, **kwargs)-> None:
+    def register_user(self, **kwargs)-> None:
         """registers a user"""
         email = kwargs['email']
         obj = None
         user = None
-        password = hashpassword(pass_word)
-        kwargs['hashed_password'] = password
+        password = hashpassword(kwargs['password'])
+        kwargs['password'] = password
         if kwargs['role'] == "student":
             user = storage.find_user(Student, email=email)
             if user:

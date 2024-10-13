@@ -16,11 +16,12 @@ class BaseModel:
     last_name = Column(String(50), nullable=False)
     email = Column(String(50), nullable=False)
     gender = Column(String(50), nullable=False)
+    photo = Column(String(50), nullable=False)
     role = Column(String(50), nullable=False)
     religion = Column(String(50), nullable=False)
     created_at = Column(Date)
     updated_at = Column(Date)
-    hashed_password = Column(String(50), nullable=False)
+    password = Column(String(50), nullable=False)
     reset_token = Column(String(40), nullable=True)
     session_id = Column(String(40), nullable=True)
 

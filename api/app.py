@@ -3,11 +3,14 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 from views import app_routes
+from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
 CORS(app)
+app.config['JWT_SECRET_KEY'] = 'gQWwyO14gh5HGOdcvQPL56ODG43OND32APB@2#2&46'
+jwt = JWTManager(app)
 
-app_routes.register_blueprint(app_routes)
+app.register_blueprint(app_routes)
 
 
 @app.errorhandler(404)
@@ -38,6 +41,13 @@ def first_authenticate() -> str:
     """
     return jsonify({"error": "incorrect credentials"}), 407
 
+# @app.before_request
+# def authorization():
+#    """allow only authorized
+#   access """
+#    request_path = ['login', 'signup']
+    
+    
 
 if __name__ == '__main__':
-    app.run("0.0.0.0", "5000")
+    app.run("0.0.0.0", "5000", debug=True)
