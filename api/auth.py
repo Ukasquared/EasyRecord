@@ -4,6 +4,7 @@ from models.admin import Admin
 from models.parent import Parent
 from models.teacher import Teacher
 from models.student import Student
+from api.models.course import Course
 from models import storage
 import bcrypt, uuid
 
@@ -53,6 +54,16 @@ class Auth:
                 raise ValueError('email already registered')
             obj = Admin(**kwargs)
         obj.new()
+        return obj.id
+    
+    def register_course(self, admin_id, teacher_id):
+        """registers a course"""
+        course = storage.find_user(Course, admin_id )
+        if course:
+            raise ValueError('course already registered')
+        new_course = Course(admin_id=admin_id, teacher_id=teacher_id)
+        new_course.new()
+        return new_course.id
 
 
     def validate_login(self, email, password):

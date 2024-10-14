@@ -1,5 +1,5 @@
 from views import app_routes
-from flask import request
+from flask import request, send_from_directory
 from werkzeug.utils import secure_filename
 from api.auth import Auth
 from flask import abort, jsonify, redirect
@@ -9,7 +9,7 @@ import os
 
 
 
-upload_folder = 'api/files/'
+upload_folder = '/api/files/'
 ALLOWED_EXTENSIONS = {'jpeg', 'jpg', 'png'}
 
 
@@ -90,6 +90,13 @@ def sign_up():
             filename = secure_filename(file.filename)
             file.save(os.path.join(upload_folder, filename))
         form_data['photo'] = filename
-        Auth.register_user(form_data)
-        return jsonify({'message': 'registration successsfully'}), 200
+        obj_id = Auth.register_user(form_data)
+        return jsonify({'message': obj_id}), 200
     abort(403)
+
+
+# route to serve file
+@app_routes.route(f"{upload_folder}<path:filename>", methods=["GET"])
+def serve_file(filename):
+    """serve file"""
+    return send_from_directory(upload_folder, filename)

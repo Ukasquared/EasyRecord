@@ -4,7 +4,6 @@ from models import Base
 from models.base import BaseModel
 from sqlalchemy import Column, String, ForeignKey, Table, Integer
 # from sqlalchemy.orm import relationship, backref
-import uuid
 # from datetime import datetime
 
 
@@ -19,8 +18,9 @@ class Course(Base, BaseModel):
     __table__ = "courses"
     
     title = Column(String(40), nullable=False)
-    teacher_id = Column(String(40), ForeignKey('teacher.id'))
+    teacher_id = Column(String(40), ForeignKey('teacher.id'), nullable=False)
     score = Column(Integer, default=0)
+    admin_id = Column(String(40), ForeignKey('admin.id'), nullable=False)
 
 
     def __repr__(self) -> str:

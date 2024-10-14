@@ -26,6 +26,12 @@ def not_authorized() -> str:
     """
     return jsonify({"error": "Unauthorized"}), 401
 
+@app.errorhandler(400)
+def invalid_json() -> str:
+    """ invalid json
+    """
+    return jsonify({"error": "missing or invalid json file"}), 400
+
 
 @app.errorhandler(403)
 def not_allowed() -> str:
@@ -46,8 +52,8 @@ def first_authenticate() -> str:
 #    """allow only authorized
 #   access """
 #    request_path = ['login', 'signup']
-    
-    
+# 
+ 
 
 if __name__ == '__main__':
     app.run("0.0.0.0", "5000", debug=True)

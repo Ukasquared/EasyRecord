@@ -2,10 +2,9 @@
 """teacher class"""
 from models import Base
 from models.base import BaseModel
-from sqlalchemy import Column, String, DateTime, Table, ForeignKey
+from sqlalchemy import Column, Table, ForeignKey, String
 from sqlalchemy.orm import relationship, backref
-import uuid
-from datetime import datetime
+# import uuid
 
 
 association_table = Table(
@@ -19,10 +18,9 @@ class Teacher(Base, BaseModel):
     __table__ = "teacher"
 
     student = relationship('Student', backref="teacher")
-    course = relationship("Course", backref="teacher")
+    course = relationship("Course", backref="teacher", uselist=False)
+    admin_id = Column(String(40), ForeignKey('admin.id'), nullable=False)
 
 
     def __repr__(self) -> str:
         return f"<Class name: {self.__class__.__name__}>"
-
-    

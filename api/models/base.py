@@ -12,8 +12,8 @@ class BaseModel:
     """base_model
     of all classes"""
     id = Column(String(40), primary_key=True)
-    first_name = Column(String(50), nullable=False)
-    last_name = Column(String(50), nullable=False)
+    firstname = Column(String(50), nullable=False)
+    lastname = Column(String(50), nullable=False)
     email = Column(String(50), nullable=False)
     gender = Column(String(50), nullable=False)
     photo = Column(String(50), nullable=False)
