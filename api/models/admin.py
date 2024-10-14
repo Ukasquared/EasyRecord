@@ -13,7 +13,8 @@ class Admin(Base, BaseModel):
     __table__ = "admin"
 
     courses = relationship("Course", backref="admin")
-    student = relationship("Student", backref="admin")
+    students = relationship("Student", backref="admin")
+    teachers = relationship("Teacher" backref="admin")
 
     def __repr__(self) -> str:
         return f"<Class name: {self.__class__.__name__}>"

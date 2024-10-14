@@ -64,6 +64,16 @@ class Auth:
         new_course = Course(admin_id=admin_id, teacher_id=teacher_id)
         new_course.new()
         return new_course.id
+    
+    def enroll_student_course(self, course_id, student_id):
+        """enroll a student in a course"""
+        student = storage.find_user(Student, id=student_id)
+        course = storage.find_user(Course, id=course_id)
+        if not student or not course:
+            raise ValueError('course or student not registered')
+        student.course.append(course)
+        storage.save()
+        return student.firstname
 
 
     def validate_login(self, email, password):

@@ -9,6 +9,7 @@ def register_course():
     """enroll teacher into
     a course"""
     # request should contain teacher id, admin id
+    # check if course already exist
     if request.method == "POST":
         data = request.get_json()
         if data:

@@ -22,8 +22,7 @@ class Database:
     def connect(self) -> None:
         """connect to the database
         and also create a session"""
-        Base.metadata.create_all(self._engine)
-       
+        Base.metadata.create_all(self._engine)   
 
     @property
     def session(self):

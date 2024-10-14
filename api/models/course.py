@@ -9,13 +9,13 @@ from sqlalchemy import Column, String, ForeignKey, Table, Integer
 
 association_table = Table(
     'courses_student', Base.metadata,
-    Column('course_id', ForeignKey("courses.id"), primary_key=True),
+    Column('course_id', ForeignKey("course.id"), primary_key=True),
     Column("student_id", ForeignKey("student.id"), primary_key=True)
 )
 
 class Course(Base, BaseModel):
     """all courses"""
-    __table__ = "courses"
+    __table__ = "course"
     
     title = Column(String(40), nullable=False)
     teacher_id = Column(String(40), ForeignKey('teacher.id'), nullable=False)

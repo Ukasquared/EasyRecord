@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 """parent view function"""
 from views import app_routes, role_required
-from flask import request, abort
+from flask import request, abort, jsonify
 from models import storage
-from models.parent import Parent 
+from models.parent import Parent
+from models.student import Student
+# from models.course import Course
 
 
 upload_folder = '/api/files/'
@@ -15,21 +17,34 @@ def parent_dashboard():
     scores"""
     data = request.get_json()
     if not data:
-        abort()
+        abort(407)
     email = data.get('email')
-    user = storage.find_user(Parent, email=email)
-    # fetch the parents information
-    # fetch the student names, course offered and
-    # score that is connected to the parent
-    user_data = {
-        'id':  user.id,
-        'lastname': user.lastname,
-        "email": user.email,
-        "gender": user.gender,
-        "photo": f"{upload_folder}{user.photo}",
-        "role": user.role,
-        "student_id": user.student_id,
-        "student_name":,
-        "course_score":,
-    }
+    if email:
+        parent = storage.find_user(Parent, email=email)
+        # fetch the parents information
+        # fetch the student names, course offered and score that is connected to the parent
+        student_id = parent.student_id
+        student = storage.find_user(Student, id=student_id)
+        course_detail = []
+        if student:
+            for course in student.course:
+                d_course = {}
+                d_course[course.title] = course.score
+                course_detail.append(d_course)
+
+        user_data = {"parent": {
+            'id':  parent.id,
+            'firstname': parent.firstname,
+            'lastname': parent.lastname,
+            "email": parent.email,
+            "gender": parent.gender,
+            "photo": f"{upload_folder}{parent.photo}"
+        }, "student": {
+            "student_id": student_id,
+            'firstname': student.firstname,
+            'lastname': student.lastname,
+            "course": course_detail
+        }}
+
+        return jsonify(user_data), 200
 
