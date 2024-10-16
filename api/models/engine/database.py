@@ -1,8 +1,14 @@
 #!/usr/bin/python3
 """database class"""
-from models import Base
+from api.models.base import Base
+from api.models.admin import Admin
+from api.models.student import Student
+from api.models.course import Course
+from api.models.parent import Parent
+from api.models.teacher import Teacher
+from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+
 
 class Database:
     """store users
@@ -15,21 +21,24 @@ class Database:
         """initialize an instance
         and creates a connection 
         to database"""
+    
         self._engine = create_engine(
-            'mysql+mysqldb://easyrecord:record \
-            @localhost:5000/Easyrecord')
+            'mysql+mysqldb://root:root@localhost/easyrecord')
+
+        print("Connected to the database")
 
     def connect(self) -> None:
         """connect to the database
         and also create a session"""
-        Base.metadata.create_all(self._engine)   
+        Base.metadata.drop_all(self._engine)
+        Base.metadata.create_all(self._engine)
+        Session = sessionmaker(bind=self._engine, expire_on_commit=False)
+        session = scoped_session(Session)
+        self._session = session
 
     @property
     def session(self):
         """establish a session"""
-        if self._session is None:
-            Session = sessionmaker(bind=self._engine)
-            self._session = Session()
         return self._session
     
     def add_user(self, obj):

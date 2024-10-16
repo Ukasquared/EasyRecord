@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.roboto-light {
+font-family: "Roboto", sans-serif;
+font-weight: 300;
+font-style: normal;
+}
+
+.roboto-regular {
+font-family: "Roboto", sans-serif;
+font-weight: 400;
+font-style: normal;
+}
+
+.roboto-medium {
+font-family: "Roboto", sans-serif;
+font-weight: 500;
+font-style: normal;
+}
+
+.roboto-bold {
+font-family: "Roboto", sans-serif;
+font-weight: 700;
+font-style: normal;
+}
+
+.roboto-black {
+font-family: "Roboto", sans-serif;
+font-weight: 900;
+font-style: normal;
+}
+
+.roboto-thin-italic {
+font-family: "Roboto", sans-serif;
+font-weight: 100;
+font-style: italic;
+}
+
+.roboto-light-italic {
+font-family: "Roboto", sans-serif;
+font-weight: 300;
+font-style: italic;
+}
+
+body {
+    background-color: #3A0CA3;
+    overflow-x: hidden;
+    font-family: "Roboto",sans-serif;
+}
+section {
+    margin-bottom: 4rem;
+    font-size: 1rem;
+    color: #ffffff;
+}
+
+.admin-info .admin-details{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.row1, .row2, .row3, .row4 {
+    display: flex;
+    gap: 4rem;
+}
+
+.admin-details .details {
+    background: #3A0CA3;
+    padding: 3rem;
+}
+.infomatics .informatt {
+    text-align: center;
+}
+.informat {
+    gap: 2rem;
+    color: #ffffff;
+    font-size: 2rem;
+}
+
+.informat .total-teacher,
+.informat .total-student {
+    display: flex;
+    gap: 1.5rem;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    background-color: #e84855;
+    padding: 1.5rem 0;
+    width: 12rem;
+}
+
+.informat .total-teacher span,
+.informat .total-student span {
+    font-size: 4rem;
+}
+
+input[type=text] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+  }
+  
+  label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+  }
+  
+  input[type=submit] {
+    background-color: #e84855;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+  }
+  
+  input[type=submit]:hover {
+    background-color: #3A0CA3;
+  }
+  
+  .col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+  }
+  
+  .col-75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+  }
+  .form-row::after {
+    content: "";
+    display: table;
+    clear: both;
+  }

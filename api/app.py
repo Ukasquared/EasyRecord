@@ -1,14 +1,17 @@
 #!/usr/bin/python3
 """routes"""
+
 from flask import Flask, jsonify
 from flask_cors import CORS
-from views import app_routes
+from .views import app_routes
 from flask_jwt_extended import JWTManager
+
 
 app = Flask(__name__)
 CORS(app)
 app.config['JWT_SECRET_KEY'] = 'gQWwyO14gh5HGOdcvQPL56ODG43OND32APB@2#2&46'
 jwt = JWTManager(app)
+
 
 app.register_blueprint(app_routes)
 
@@ -40,7 +43,7 @@ def not_allowed() -> str:
     """
     return jsonify({"error": "Forbidden"}), 403
 
-@app.errorhandler(407)
+@app.errorhandler(405)
 def first_authenticate() -> str:
     """ not allowed
     handler
@@ -56,4 +59,4 @@ def first_authenticate() -> str:
  
 
 if __name__ == '__main__':
-    app.run("0.0.0.0", "5000", debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

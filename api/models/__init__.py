@@ -1,3 +1,14 @@
-from sqlalchemy.ext.declarative import declarative_base
+from api.models.engine.database import Database
+from api.models.base import Base
 
-Base = declarative_base()
+import logging
+
+logging.basicConfig()
+logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
+
+
+storage = Database()
+
+
+print("Registered tables:", Base.metadata.tables.keys())
+storage.connect()

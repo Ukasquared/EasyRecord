@@ -1,9 +1,10 @@
-#!/usr/bin/python3
 """base model"""
 from sqlalchemy import Column, String, Date
 import uuid
 from datetime import date
+from sqlalchemy.ext.declarative import declarative_base
 
+Base = declarative_base()
 
 #create user, save user, delete user
 
@@ -11,7 +12,9 @@ from datetime import date
 class BaseModel:
     """base_model
     of all classes"""
-    id = Column(String(40), primary_key=True)
+    # __abstract__ = True
+
+    id = Column(String(40), primary_key=True, nullable=False)
     firstname = Column(String(50), nullable=False)
     lastname = Column(String(50), nullable=False)
     email = Column(String(50), nullable=False)
@@ -34,18 +37,17 @@ class BaseModel:
         self.updated_at = date.today()
 
     def new(self)-> None:
-        """create a
-        new object"""
-        from models import storage
+        """Create a new object."""
+        from api.models import storage
         storage.add_user(self)
         storage.save()
 
     def update_user_info(self, *kwargs):
         """update the user data
         in the database"""
-        from models import storage
-        user = storage.find_user(self, self.id)
-        for k, v in kwargs.items:
+        from api.models import storage
+        user = storage.find_user(self, id=self.id)
+        for k, v in kwargs.items():
             if hasattr(user, k):
                 setattr(user, k, v)
         storage.save()

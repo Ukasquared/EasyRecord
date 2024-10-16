@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """parent view function"""
-from views import app_routes, role_required
+from ..views import app_routes, role_required
 from flask import request, abort, jsonify
-from models import storage
-from models.parent import Parent
-from models.student import Student
+from api.models import storage
+from api.models.parent import Parent
+from api.models.student import Student
 # from models.course import Course
 
 

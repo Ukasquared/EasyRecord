@@ -1,6 +1,5 @@
 from flask import Blueprint
 from flask_jwt_extended import jwt_required, get_jwt
-from views.index import *
 
 app_routes = Blueprint('app_routes', __name__)
 
@@ -16,3 +15,9 @@ def role_required(user_role):
             return fn(args, kwargs)
         return invoked_func
     return wrapper
+
+from ..views.index import *
+from ..views.admin import *
+from ..views.teacher import *
+from ..views.parent import *
+from ..views.course import *

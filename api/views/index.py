@@ -1,4 +1,4 @@
-from views import app_routes
+from ..views import app_routes
 from flask import request, send_from_directory
 from werkzeug.utils import secure_filename
 from api.auth import Auth

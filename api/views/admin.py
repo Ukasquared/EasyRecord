@@ -1,11 +1,9 @@
 #!/usr/bin/python3
-from views import app_routes, role_required
+from api.views import app_routes, role_required
 from flask import request, abort, jsonify
-from models.student import Student
-from models.admin import Admin
-from models.course import Course
+from ..models.admin import Admin
 from api.auth import Auth
-from models import storage
+from api.models import storage
 
 # enroll student in course - endpoint
 # assign admin for a course - endpoint

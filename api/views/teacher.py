@@ -1,15 +1,15 @@
 #!/usr/bin/python3
 from flask import request, abort, jsonify
-from views import app_routes, role_required
-from models import storage
-from models.teacher import Teacher
+from api.views import app_routes, role_required
+from api.models import storage
+from api.models.teacher import Teacher
 #fetch the teachers details from the database
 # fetch the courses they teach
 # fetch the names of student offering their course
 upload_folder = '/api/files/'
 
 
-@app_routes('/teachers_dashboard', methods=['POST'], strict_slashes=False)
+@app_routes.route('/teachers_dashboard', methods=['POST'], strict_slashes=False)
 @role_required
 def teachers_dashboard():
     if request.method == "POST":

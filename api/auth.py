@@ -1,11 +1,10 @@
-#!/usr/bin/python3
 """authentication class"""
-from models.admin import Admin
-from models.parent import Parent
-from models.teacher import Teacher
-from models.student import Student
+from api.models.admin import Admin
+from api.models.parent import Parent
+from api.models.teacher import Teacher
+from api.models.student import Student
 from api.models.course import Course
-from models import storage
+import api.models as models
 import bcrypt, uuid
 
 
@@ -34,22 +33,22 @@ class Auth:
         password = hashpassword(kwargs['password'])
         kwargs['password'] = password
         if kwargs['role'] == "student":
-            user = storage.find_user(Student, email=email)
+            user = models.storage.find_user(Student, email=email)
             if user:
                 raise ValueError('email already registered')
             obj =  Student(**kwargs)
         elif kwargs['role'] == "teacher":
-            user = storage.find_user(Teacher, email=email)
+            user = models.storage.find_user(Teacher, email=email)
             if user:
                 raise ValueError('email already registered')
             obj = Teacher(**kwargs)
         elif kwargs['role'] == "parent":
-            user = storage.find_user(Parent, email=email)
+            user = models.storage.find_user(Parent, email=email)
             if user:
                 raise ValueError('email already registered')
             obj = Parent(**kwargs)
         else:
-            user = storage.find_user(Admin, email=email)
+            user = models.storage.find_user(Admin, email=email)
             if user:
                 raise ValueError('email already registered')
             obj = Admin(**kwargs)
@@ -58,7 +57,7 @@ class Auth:
     
     def register_course(self, admin_id, teacher_id):
         """registers a course"""
-        course = storage.find_user(Course, admin_id )
+        course = models.storage.find_user(Course, admin_id )
         if course:
             raise ValueError('course already registered')
         new_course = Course(admin_id=admin_id, teacher_id=teacher_id)
@@ -67,12 +66,12 @@ class Auth:
     
     def enroll_student_course(self, course_id, student_id):
         """enroll a student in a course"""
-        student = storage.find_user(Student, id=student_id)
-        course = storage.find_user(Course, id=course_id)
+        student = models.storage.find_user(Student, id=student_id)
+        course = models.storage.find_user(Course, id=course_id)
         if not student or not course:
             raise ValueError('course or student not registered')
         student.course.append(course)
-        storage.save()
+        models.storage.save()
         return student.firstname
 
 
@@ -80,7 +79,7 @@ class Auth:
         """validate user credential"""
         state = False
         for v in self.user_model.values():
-             user = storage.find_user(
+             user = models.storage.find_user(
                  v, email=email)
              if user:
                  state = bcrypt.checkpw(password, user.hashed_password)
@@ -92,7 +91,7 @@ class Auth:
         user = None
         session_id = _generate_uuid()
         for v in self.user_model.values():
-             user = storage.find_user(
+             user = models.storage.find_user(
                  v, email=email)
              if user:
                 user.update_user_info(session_id=session_id)
@@ -105,7 +104,7 @@ class Auth:
         if not session_id:
             return None
         for v in self.user_model.values():
-             user = storage.find_user(
+             user = models.storage.find_user(
                  v, session_id=session_id)
              if user:
                 return user
@@ -114,7 +113,7 @@ class Auth:
     def destroy_session(self, user_id):
         """destroy user session"""
         for v in self.user_model.values():
-             user = storage.find_user(
+             user = models.storage.find_user(
                  v, user_id=user_id)
              if user:
                  user.session_id = None
@@ -125,7 +124,7 @@ class Auth:
         """reset user 
         password"""
         for v in self.user_model.values():
-             user = storage.find_user(
+             user = models.storage.find_user(
                  v, email=email)
              if not user:
                  raise ValueError('No user found')
@@ -139,7 +138,7 @@ class Auth:
     def update_password(self, token, password):
         """updates user password"""
         for v in self.user_model.values():
-             user = storage.find_user(
+             user = models.storage.find_user(
                  v, reset_token=token)
              if user:
                  hashed_password = hashpassword(password)
