@@ -12,7 +12,7 @@ class Student(BaseModel, Base):
 
     parent = relationship('Parent', back_populates="student", uselist=False)
     # attendance = relationship('Attendance', backref="students")
-    course = relationship('Course', back_populates='student')
+    course = relationship('Course', secondary="courses_student", back_populates='student')
     admin_id = Column(String(40), ForeignKey('admin.id'), nullable=False)
     teacher = relationship('Teacher',  secondary="teacher_student",  back_populates="student")
     admin = relationship("Admin", back_populates="student")

@@ -7,6 +7,7 @@ from api.models.course import Course
 from api.models.parent import Parent
 from api.models.teacher import Teacher
 from sqlalchemy.orm import sessionmaker, scoped_session
+# from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy import create_engine
 
 
@@ -54,8 +55,18 @@ class Database:
     def find_user(self, obj, **kwargs):
         """find user based on keyworded
         args"""
-        user = self._session.query(obj).filter_by(**kwargs)
+        user = self._session.query(obj).filter_by(**kwargs).first()
         return user
+    
+    def update_user_info(self, obj, **kwargs):
+        """update the user data
+        in the database"""
+        if not kwargs:
+            raise ValueError('i am not kwargs')
+        for k, v in kwargs.items():
+            if hasattr(obj, k):
+                setattr(obj, k, v)
+        self.save()
 
     def delete(self, obj):
         """delete user

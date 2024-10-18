@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 from flask import request, abort, jsonify
-from api.views import app_routes, role_required
+from api.views import app_routes
+from api.views.role import role_required
 from api.models import storage
 from api.models.teacher import Teacher
 #fetch the teachers details from the database

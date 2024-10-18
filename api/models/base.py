@@ -1,8 +1,9 @@
 """base model"""
-from sqlalchemy import Column, String, Date
+from sqlalchemy import Column, String, Date, Binary
 import uuid
 from datetime import date
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm.exc import NoResultFound
 
 Base = declarative_base()
 
@@ -24,14 +25,17 @@ class BaseModel:
     religion = Column(String(50), nullable=False)
     created_at = Column(Date)
     updated_at = Column(Date)
-    password = Column(String(50), nullable=False)
+    password = Column(Binary(100), nullable=False)
     reset_token = Column(String(40), nullable=True)
     session_id = Column(String(40), nullable=True)
 
 
-    def __init__(self) -> None:
+    def __init__(self, **kwargs) -> None:
         """creates an instance
         of the class"""
+        if kwargs:
+            for k, v in kwargs.items():
+                setattr(self, k, v)
         self.id = str(uuid.uuid4())
         self.created_at = date.today()
         self.updated_at = date.today()
@@ -42,12 +46,3 @@ class BaseModel:
         storage.add_user(self)
         storage.save()
 
-    def update_user_info(self, *kwargs):
-        """update the user data
-        in the database"""
-        from api.models import storage
-        user = storage.find_user(self, id=self.id)
-        for k, v in kwargs.items():
-            if hasattr(user, k):
-                setattr(user, k, v)
-        storage.save()

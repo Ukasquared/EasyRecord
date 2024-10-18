@@ -5,14 +5,15 @@ from api.models.teacher import Teacher
 from api.models.student import Student
 from api.models.course import Course
 import api.models as models
+from sqlalchemy.orm.exc import NoResultFound
 import bcrypt, uuid
 
 
-def hashpassword(password) -> bytes:
+def hashpassword(password):
     """hashes the password"""
     pass_word = password.encode('utf-8')
     salt = bcrypt.gensalt()
-    return bcrypt.hashpw(salt, pass_word)
+    return bcrypt.hashpw(pass_word, salt)
 
 def _generate_uuid() -> str:
     """generates uuid"""
@@ -25,12 +26,13 @@ class Auth:
     user_model = {'admin': Admin, 'student': Student,
               'parent': Parent, 'teacher': Teacher}
 
-    def register_user(self, **kwargs)-> None:
+    def register_user(self, **kwargs):
         """registers a user"""
-        email = kwargs['email']
         obj = None
         user = None
-        password = hashpassword(kwargs['password'])
+        email = kwargs['email']
+        pass_word = kwargs['password']
+        password = hashpassword(pass_word)
         kwargs['password'] = password
         if kwargs['role'] == "student":
             user = models.storage.find_user(Student, email=email)
@@ -49,11 +51,12 @@ class Auth:
             obj = Parent(**kwargs)
         else:
             user = models.storage.find_user(Admin, email=email)
+            print(user)
             if user:
                 raise ValueError('email already registered')
             obj = Admin(**kwargs)
         obj.new()
-        return obj.id
+        return str(obj.id)
     
     def register_course(self, admin_id, teacher_id):
         """registers a course"""
@@ -78,23 +81,27 @@ class Auth:
     def validate_login(self, email, password):
         """validate user credential"""
         state = False
-        for v in self.user_model.values():
-             user = models.storage.find_user(
-                 v, email=email)
-             if user:
-                 state = bcrypt.checkpw(password, user.hashed_password)
-                 break
+        classes = list(self.user_model.values())
+        try:
+            for v in classes:
+                user = models.storage.find_user(v, email=email)
+                if user:
+                    user_pwd = password.encode("utf-8")
+                    state = bcrypt.checkpw(user_pwd, user.password)
+                    break
+        except:
+            raise ValueError
         return state
 
     def create_session(self, email):
         """create session"""
-        user = None
         session_id = _generate_uuid()
-        for v in self.user_model.values():
+        classes = list(self.user_model.values())
+        for v in classes:
              user = models.storage.find_user(
                  v, email=email)
              if user:
-                user.update_user_info(session_id=session_id)
+                models.storage.update_user_info(user, session_id=session_id)
                 return session_id
     
 

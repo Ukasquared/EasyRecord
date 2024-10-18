@@ -63,3 +63,11 @@ input[type="submit"], .sign-up a{
 .all-style select {
     margin-bottom: .8rem;
 }
+
+.log {
+    font-size: 2rem;
+    color: #e84855;
+    position: absolute;
+    top: 2rem;
+    left: 30rem;
+}

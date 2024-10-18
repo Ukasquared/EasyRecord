@@ -2,15 +2,16 @@ from ..views import app_routes
 from flask import request, send_from_directory
 from werkzeug.utils import secure_filename
 from api.auth import Auth
-from flask import abort, jsonify, redirect
+from flask import abort, jsonify, redirect, make_response
 from flask_jwt_extended import create_access_token
 from datetime import timedelta
 import os
 
+auth = Auth()
 
-
-upload_folder = '/api/files/'
+upload_folder = 'files'
 ALLOWED_EXTENSIONS = {'jpeg', 'jpg', 'png'}
+os.makedirs(upload_folder, exist_ok=True)
 
 
 def allowed_file(filename):
@@ -18,23 +19,34 @@ def allowed_file(filename):
             filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
     
 
+@app_routes.route('/', methods=["GET"], strict_slashes=False)
+def hello_world():
+    return jsonify({"msg": "it is working"})
+
+
+
 @app_routes.route('/login', methods=['POST'], strict_slashes=False)
 def login_user():
     """log a user in"""
-    email = request.form['email']
-    role =  request.form['role']
-    password = request.form['password']
-
-    if email and password and role:
-        state = Auth.validate_login(email, password, role)
-        if not state:
-            abort(407)
-        session_id = Auth.create_session(email, role)
-        # create a jwt token with the users role included
-        access_token = create_access_token(identity={'role': role}, expires_delta=(timedelta(minutes=30)))
-        response = jsonify(access_token=access_token)
-        response.set_cookie("session_id", session_id)
-        return response, 200
+    
+    if request.method == "POST":
+        data = request.get_json()
+        if data:
+            role = data.get('email')
+            email = data.get('email')
+            password = data.get('password')
+            if email and password and role:
+                state = auth.validate_login(email, password)               
+            if state:
+                session_id = auth.create_session(email)
+                print(session_id)
+                    # create a jwt token with the users role included
+                access_token = create_access_token(identity={'role': role}, expires_delta=(timedelta(minutes=30)))
+                response = make_response() token=access_token)
+                response.set_cookie("session_id", session_id)
+                return jsonify(response), 200
+        abort(405)
+    
 
 
 @app_routes.route('/logout', methods=['DELETE'], strict_slashes=False)
@@ -43,9 +55,9 @@ def logout_user():
     destroying the
     session """
     cookie = request.cookies.get('session_id')
-    user = Auth.get_usr_from_session_id(cookie)
+    user = auth.get_usr_from_session_id(cookie)
     if user:
-        Auth.destroy_session(user.id)
+        auth.destroy_session(user.id)
         redirect("/")
     else:
         abort(403)
@@ -74,7 +86,7 @@ def reset_password():
 
 # send and save file in the file system
 # this should hand also sign up
-@app_routes.route('/sign_up', methods=['POST'], strict_slashes=False)
+@app_routes.route('/signup', methods=['POST'], strict_slashes=False)
 def sign_up():
     """uploads, 
     a picture to 
@@ -90,7 +102,8 @@ def sign_up():
             filename = secure_filename(file.filename)
             file.save(os.path.join(upload_folder, filename))
         form_data['photo'] = filename
-        obj_id = Auth.register_user(form_data)
+        obj_id = auth.register_user(**form_data)
+        print(obj_id)
         return jsonify({'message': obj_id}), 200
     abort(403)
 

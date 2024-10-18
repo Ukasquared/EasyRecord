@@ -1,6 +1,7 @@
 #!/usr/bin/python3
-from api.views import app_routes, role_required
-from flask import request, abort, jsonify
+from api.views import app_routes
+from api.views.role import role_required
+from flask import request, abort, jsonify, redirect, url_for, send_from_directory
 from ..models.admin import Admin
 from api.auth import Auth
 from api.models import storage
@@ -35,21 +36,20 @@ def enroll_student():
             abort(400)
 
 
-@role_required('admin')
+@role_required('admin') 
 @app_routes.route('/admin_dashboard', methods=['POST'], strict_slashes=False)
-def admin_dashboard():
+def admin():
     """fetch admin personal information,
     total number of teachers, and
     total number of student"""
     # # all courses title and their id (list of list)
     # request should contain admin id and course id
     if request.method == "POST":
-        data = request.get_json()
-        if not data:
+        session_id = request.cookies.get('session_id')
+        if not session_id:
             abort(407)
-        email = data.get("email")
-        if email:
-            admin = storage.find_user(Admin, email=email)
+        if session_id:
+            admin = storage.find_user(Admin, session_id=session_id)
             if not admin:
                 abort(407)
             total_student = len(admin.students)
@@ -71,3 +71,4 @@ def admin_dashboard():
                         "total_ teacher": total_teacher
                     }
             return jsonify(admin_data), 200
+       # redirect(url_for('login'))

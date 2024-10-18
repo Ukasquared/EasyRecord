@@ -13,7 +13,7 @@
         integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
-    </head>
+    <script defer src="login.bundle.js"></script></head>
 </head>
 <body class="container">
     <p class="display"></p>
@@ -21,7 +21,7 @@
     <div class="col-md-6 sign-in">
         <h5>Sign In</h5>
         <div class="name">
-            <form class="form-1">
+            <form id="form-1">
                 <label for="username">Email:</label>
                 <input type="text" name="email" id="email"><br><br>
                 <label for="password">Password</label>
@@ -35,7 +35,7 @@
                 <input type="submit" value="submit">
                 <div class="remem">
                     <div class="check-box">
-                        <input type="checkbox" name="remind" id="remind" value="remember">
+                        <input type="checkbox" name="remind" id="remind" value="remember" form="form-1">
                         <label for="remind">Remember Me</label>
                     </div>
                     <span><a href="#sign up">forgot password</a></span>

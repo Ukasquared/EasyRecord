@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 """routes"""
 
 from flask import Flask, jsonify
@@ -17,38 +16,45 @@ app.register_blueprint(app_routes)
 
 
 @app.errorhandler(404)
-def not_found() -> str:
+def not_found(error) -> str:
     """ Not found handler
     """
     return jsonify({"error": "Not found"}), 404
 
 
 @app.errorhandler(401)
-def not_authorized() -> str:
+def not_authorized(error) -> str:
     """ not_authorized
     """
     return jsonify({"error": "Unauthorized"}), 401
 
 @app.errorhandler(400)
-def invalid_json() -> str:
+def invalid_json(error) -> str:
     """ invalid json
     """
     return jsonify({"error": "missing or invalid json file"}), 400
 
 
 @app.errorhandler(403)
-def not_allowed() -> str:
+def not_allowed(error) -> str:
     """ not allowed
     handler
     """
     return jsonify({"error": "Forbidden"}), 403
 
 @app.errorhandler(405)
-def first_authenticate() -> str:
+def first_authenticate(error) -> str:
     """ not allowed
     handler
     """
-    return jsonify({"error": "incorrect credentials"}), 407
+    return jsonify({"error": "incorrect credentials"}), 405
+
+@app.errorhandler(500)
+def server_error(error) -> str:
+    """ not allowed
+    handler
+    """
+    return jsonify({"error": "server error"}), 500
 
 # @app.before_request
 # def authorization():
