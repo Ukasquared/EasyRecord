@@ -11,7 +11,7 @@ from sqlalchemy.orm import relationship
 class Parent(BaseModel, Base):
     """parent details"""
     __tablename__ = "parents"
-    student_id = Column(String(40), ForeignKey('students.id'))
+    student_id = Column(String(40), ForeignKey('students.id'), nullable=False)
     admin_id = Column(String(40), ForeignKey('admin.id'), nullable=False)
     student = relationship('Student', back_populates="parent")
 

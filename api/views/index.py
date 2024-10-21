@@ -9,9 +9,10 @@ import os
 
 auth = Auth()
 
-upload_folder = 'files'
+uploads = 'images'
+
 ALLOWED_EXTENSIONS = {'jpeg', 'jpg', 'png'}
-os.makedirs(upload_folder, exist_ok=True)
+os.makedirs(uploads, exist_ok=True)
 
 
 def allowed_file(filename):
@@ -32,7 +33,7 @@ def login_user():
     if request.method == "POST":
         data = request.get_json()
         if data:
-            role = data.get('email')
+            role = data.get('role')
             email = data.get('email')
             password = data.get('password')
             if email and password and role:
@@ -40,14 +41,14 @@ def login_user():
             if state:
                 session_id = auth.create_session(email)
                 print(session_id)
-                    # create a jwt token with the users role included
-                access_token = create_access_token(identity={'role': role}, expires_delta=(timedelta(minutes=30)))
-                response = make_response() token=access_token)
-                response.set_cookie("session_id", session_id)
-                return jsonify(response), 200
+                # create a jwt token with the users role included
+                access_token = create_access_token(identity=role, expires_delta=(timedelta(minutes=30)))
+                response_body = jsonify({'token': access_token})
+                response = make_response(response_body, 200)
+                response.set_cookie("session_id", session_id, httponly=True)
+                return response
         abort(405)
     
-
 
 @app_routes.route('/logout', methods=['DELETE'], strict_slashes=False)
 def logout_user():
@@ -94,22 +95,25 @@ def sign_up():
     if request.method == 'POST':
         form_data = dict(request.form)
         if 'photo' not in request.files:
-            return jsonify({"error": "No file part in the request"}), 400
+            abort(400)
         file = request.files.get('photo')
         if file.filename == '':
-            return jsonify({"error": "no file was uploaded"}), 400
+            abort(400)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(upload_folder, filename))
+            file.save(os.path.join(uploads, filename))
         form_data['photo'] = filename
-        obj_id = auth.register_user(**form_data)
+        try:
+            obj_id = auth.register_user(**form_data)
+        except ValueError:
+            abort(400)
         print(obj_id)
         return jsonify({'message': obj_id}), 200
-    abort(403)
-
 
 # route to serve file
-@app_routes.route(f"{upload_folder}<path:filename>", methods=["GET"])
+@app_routes.route(f"/{uploads}/<path:filename>", methods=["GET"])
 def serve_file(filename):
     """serve file"""
-    return send_from_directory(upload_folder, filename)
+    abs_path = os.path.abspath(uploads)
+    print(f"Serving from: {abs_path}")
+    return send_from_directory(abs_path, filename)

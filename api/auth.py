@@ -17,7 +17,7 @@ def hashpassword(password):
 
 def _generate_uuid() -> str:
     """generates uuid"""
-    return uuid.uuid4()
+    return str(uuid.uuid4())
 
 class Auth:
     """authentication
@@ -28,42 +28,45 @@ class Auth:
 
     def register_user(self, **kwargs):
         """registers a user"""
-        obj = None
-        user = None
-        email = kwargs['email']
-        pass_word = kwargs['password']
-        password = hashpassword(pass_word)
-        kwargs['password'] = password
-        if kwargs['role'] == "student":
-            user = models.storage.find_user(Student, email=email)
-            if user:
-                raise ValueError('email already registered')
-            obj =  Student(**kwargs)
-        elif kwargs['role'] == "teacher":
-            user = models.storage.find_user(Teacher, email=email)
-            if user:
-                raise ValueError('email already registered')
-            obj = Teacher(**kwargs)
-        elif kwargs['role'] == "parent":
-            user = models.storage.find_user(Parent, email=email)
-            if user:
-                raise ValueError('email already registered')
-            obj = Parent(**kwargs)
-        else:
-            user = models.storage.find_user(Admin, email=email)
-            print(user)
-            if user:
-                raise ValueError('email already registered')
-            obj = Admin(**kwargs)
-        obj.new()
+        try:
+            obj = None
+            user = None
+            email = kwargs['email']
+            pass_word = kwargs['password']
+            password = hashpassword(pass_word)
+            kwargs['password'] = password
+            if kwargs['role'] == "student":
+                user = models.storage.find_user(Student, email=email)
+                if user:
+                    raise ValueError('email already registered')
+                obj =  Student(**kwargs)
+            elif kwargs['role'] == "teacher":
+                user = models.storage.find_user(Teacher, email=email)
+                if user:
+                    raise ValueError('email already registered')
+                obj = Teacher(**kwargs)
+            elif kwargs['role'] == "parent":
+                user = models.storage.find_user(Parent, email=email)
+                if user:
+                    raise ValueError('email already registered')
+                obj = Parent(**kwargs)
+            else:
+                user = models.storage.find_user(Admin, email=email)
+                print(user)
+                if user:
+                    raise ValueError('email already registered')
+                obj = Admin(**kwargs)
+            obj.new()
+        except:
+            raise ValueError('registration not successful; incomplete data')
         return str(obj.id)
     
-    def register_course(self, admin_id, teacher_id):
+    def register_course(self, admin_id, teacher_id, title):
         """registers a course"""
         course = models.storage.find_user(Course, admin_id )
         if course:
             raise ValueError('course already registered')
-        new_course = Course(admin_id=admin_id, teacher_id=teacher_id)
+        new_course = Course(admin_id=admin_id, teacher_id=teacher_id, title=title)
         new_course.new()
         return new_course.id
     
@@ -76,7 +79,6 @@ class Auth:
         student.course.append(course)
         models.storage.save()
         return student.firstname
-
 
     def validate_login(self, email, password):
         """validate user credential"""
@@ -110,10 +112,11 @@ class Auth:
         from session"""
         if not session_id:
             return None
-        for v in self.user_model.values():
-             user = models.storage.find_user(
+        classes = list(self.user_model.values())
+        for v in classes:
+            user = models.storage.find_user(
                  v, session_id=session_id)
-             if user:
+            if user:
                 return user
         return None
     

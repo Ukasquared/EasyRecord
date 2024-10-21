@@ -9,8 +9,6 @@ from api.models.student import Student
 # from models.course import Course
 
 
-upload_folder = '/api/files/'
-
 @role_required('parent')
 @app_routes.route('/parent_dashboard', strict_slashes=False)
 def parent_dashboard():
@@ -18,7 +16,7 @@ def parent_dashboard():
     scores"""
     data = request.get_json()
     if not data:
-        abort(407)
+        return jsonify({"error": "missing or invalid json file"}), 400
     email = data.get('email')
     if email:
         parent = storage.find_user(Parent, email=email)
@@ -33,19 +31,18 @@ def parent_dashboard():
                 d_course[course.title] = course.score
                 course_detail.append(d_course)
 
-        user_data = {"parent": {
+        parent_data = {"parent": {
             'id':  parent.id,
             'firstname': parent.firstname,
             'lastname': parent.lastname,
             "email": parent.email,
             "gender": parent.gender,
-            "photo": f"{upload_folder}{parent.photo}"
+            "photo": parent.photo
         }, "student": {
             "student_id": student_id,
             'firstname': student.firstname,
             'lastname': student.lastname,
             "course": course_detail
         }}
-
-        return jsonify(user_data), 200
-
+        return jsonify(parent_data), 200
+    return jsonify({"error": "missing or invalid json file"}), 400

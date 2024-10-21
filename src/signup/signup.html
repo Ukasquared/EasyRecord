@@ -23,17 +23,15 @@
             <label for="myDropdown">Choose an option:</label>
             <select id="myDropdown" name="role">
             <option value="admin">Admin</option>
-            <option value="teacher">Teacher</option>
-            <option value="parent">Parent</option>
             </select><br>
                 <label for="firstname">Firstname:</label><br>
-                <input type="text" name="firstname" id="firstname"><br>
+                <input type="text" name="firstname" id="firstname" required><br>
                 <label for="lastname">Lastname:</label><br>
-                <input type="text" name="lastname" id="lastname"><br>
+                <input type="text" name="lastname" id="lastname" required><br>
                 <label for="email">Email:</label><br>
-                <input type="text" name="email" id="email"><br>
+                <input type="text" name="email" id="email" required><br>
                 <label for="password">Password</label><br>
-                <input type="password" name="password" id="password"><br>
+                <input type="password" name="password" id="password" required><br>
                 <label for="photo">Select an profile picture</label><br>
                 <input type="file" id="photo" name="photo" required /><br>
                 <select name="religion" id="options">
@@ -50,8 +48,6 @@
                 <input type="submit" value="Submit">
             </form>
         </div>
-    </div>
-
-    
+    </div>  
 </body>
 </html>

@@ -16,7 +16,8 @@ async function sendFormData() {
       
         const res = await response.json();
         console.log(res.message)
-        alert("registered successfully with ID " + res.message);
+        window.location.replace('/login.html');
+        // alert("registered successfully with ID " + res.message);
 
     } catch (error) {
         console.log(error.message);
@@ -27,4 +28,5 @@ form.addEventListener("submit", function(e) {
     // e = event object
     e.preventDefault();
     sendFormData();
+    
 })

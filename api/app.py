@@ -9,10 +9,17 @@ from flask_jwt_extended import JWTManager
 app = Flask(__name__)
 CORS(app)
 app.config['JWT_SECRET_KEY'] = 'gQWwyO14gh5HGOdcvQPL56ODG43OND32APB@2#2&46'
+# app.config['UPLOADS'] = 'images'
 jwt = JWTManager(app)
 
 
 app.register_blueprint(app_routes)
+
+
+@jwt.expired_token_loader
+def expired_token_handler(jwt_header, jwt_payload):
+    return jsonify({'msg': 
+                    'the token has expired'}), 401
 
 
 @app.errorhandler(404)
@@ -26,7 +33,7 @@ def not_found(error) -> str:
 def not_authorized(error) -> str:
     """ not_authorized
     """
-    return jsonify({"error": "Unauthorized"}), 401
+    return jsonify({"error": "Unauthorized Access"}), 401
 
 @app.errorhandler(400)
 def invalid_json(error) -> str:

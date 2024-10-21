@@ -2,7 +2,10 @@
   "name": "easyrecord",
   "version": "1.0.0",
   "description": "school management software",
-  "main": "index.js",
+  "main": "home.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "build": "webpack",
     "start": "webpack-dev-server",

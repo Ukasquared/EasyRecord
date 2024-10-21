@@ -14,43 +14,28 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body class="container-fluid">
-    <!-- admin picture and information-->
-    <section class="profile">
-        <div class="row admin-info">
-            <div class="col-12 col-md-3 img-container">
-            This is an image container
+    <!---two 1 : 3-->
+    <section class="row">
+        <div class="col-3 ratio-one">
+            <div class="col-12 col-md-2 img-container">
+                This is an image container
             </div>
-            <div class="col-12 col-md-9 admin-details">
-                
-                <div class="details">
-                    <div class="row5">
-                        <p>ID</p>
-                        <p class="uuid">chidolue</p>
-                    </div> 
-                    <div class="row1">
-                        <p>Firstname</p>
-                        <p claass="fname">chidolue</p>
-                    </div>
-                    <div class="row2">
-                        <p>Lastname</p>
-                        <p class="lname">Great</p>
-                    </div>
-                    <div class="row3">
-                        <p>Email</p>
-                        <p class="email">bobdryan@gmail.com</p>
-                    </div>
-                    <div class="row4">
-                        <p>Gender</p>
-                        <p class="gender">Female</p>
-                    </div>
-                </div>
+            <div class="row3">
+                <p>ID</p>
+                <p class="email">bobdryan@gmail.com</p>
+                <p class="uuid">chidie</p>
+                <p class="fname">chidolue</p>
+                <p class="lname">Great</p>
+                <p class="gender">Female</p>
             </div>
+            <div class="row4">
+                <p>Register a Course</p>
+                <p>Recruitment / enrollment</p>
+            </div>
+            <p>Logout</p>
         </div>
-    </section>
-
-    <section class="row infomatics">
-        <div class="col-12 col-md-6">
-            <div class="row informat">
+        <div class="col-9 ratio-two">
+            <div class="first-row">
                 <div class="col total-student">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <span class="student">13</span>
@@ -59,62 +44,121 @@
                     <i class="fa-solid fa-chalkboard-user"></i>
                     <span class="teacher">5</span>
                 </div>
-            </div>
-            
-        </div>
-        <!--Enroll Student-->
-        <div class="col-12 col-md-6 enrollment-form">
-            <form id="enroll-student">
-                <div class="form-row">
-                    <div class="col-25">
-                        <label for="course_id">Course ID</label>
+                <form class="col-12 col-md-6" id="enroll-course">
+                    <p>Register a Course</p>
+                    <div class="form-row">
+                        <div class="col-25">
+                            <label for="teacher_id">Teacher ID</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" name="teacher_id" id="teacher_id" required>
+                        </div>
                     </div>
-                    <div class="col-75">
-                        <input type="text" name="course_id" id="course_id">
+                    
+                    <div class="form-row">
+                        <div class="col-25">
+                            <label for="admin_id">Admin ID</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" name="adminid" id="adminid" required>
+                        </div>   
+                    </div>
+                    <div class="form-row">
+                        <div class="col-25">
+                            <label for="title">Title</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" name="title" id="title" required>
+                        </div>     
+                    </div>
+                    <div class="submit-row">
+                        <input type="submit" value="Submit">
+                      </div>
+                </form>
+            </div>
+            <div class="second-row">
+                <div class="first-half">
+                    <!---Enroll Course-->
+                    <div class="col-12 col-md-6 enrollment-form">
+                        <p>Enroll Student Into a Course</p>
+                        <form id="enroll-student">
+                            <div class="form-row">
+                                <div class="col-25">
+                                    <label for="course_id">Course ID</label>
+                                </div>
+                                <div class="col-75">
+                                    <input type="text" name="course_id" id="course_id" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="col-25">
+                                    <label for="student_id">Student ID</label>
+                                </div>
+                                <div class="col-75">
+                                    <input type="text" name="studentid" id="studentid" required>
+                                </div>     
+                            </div>
+                            
+                            <div class="submit-row">
+                                <input type="submit" value="Submit">
+                              </div>
+                        </form>
+                    </div>
+                    <div class="search-btn">
+                        <label for="search">search for members of School</label>
+                        <i class="fa-solid fa-magnifying-glass"></i>input type="text" name="" id="">
+                        <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
                 </div>
-                
-                <div class="form-row">
-                    <div class="col-25">
-                        <label for="student_id">Student ID</label>
-                    </div>
-                    <div class="col-75">
-                        <input type="text" name="student_id" id="student_id">
-                    </div>     
-                </div>
-                <div class="submit-row">
-                    <input type="submit" value="Submit">
-                  </div>
-            </form>
-        </div>
-    </section>
-
-    <!---Enroll Course-->
-    <section class="row enrollment">
-        <form class="col-12 col-md-6" id="enroll-course">
-            <div class="form-row">
-                <div class="col-25">
-                    <label for="teacher_id">Teacher ID</label>
-                </div>
-                <div class="col-75">
-                    <input type="text" name="teacher_id" id="teacher_id">
+                <div class="second-half">
+                    <div class="col-12 col-md-6 register">
+                        <!--Enroll Student and Staff-->
+                        <p> Enroll Staff and Student</p>
+                            <form class="form-signup">
+                                <div class="admin-signup all-style">
+                                    <div>
+                                        <label for="myDropdown">Choose an option:</label>
+                                    <select id="myDropdown" name="role">
+                                    <option value="student">Student</option>
+                                    <option value="teacher">Teacher</option>
+                                    <option value="parent">Parent</option>
+                                    </select><br>
+                                        <label for="firstname">Firstname:</label><br>
+                                        <input type="text" name="firstname" id="firstname" required><br>
+                                        <label for="lastname">Lastname:</label><br>
+                                        <input type="text" name="lastname" id="lastname" required><br>
+                                        <label for="email">Email:</label><br>
+                                        <input type="text" name="email" id="email" required><br>
+                                        <label for="admin_id">Admin ID:</label><br>
+                                        <input type="text" name="admin_id" id="admin_id" required><br>
+                                    </div>
+                                    <div>
+                                        <label for="student_id">Student ID:</label><br>
+                                        <input type="text" name="student_id" id="student_id"><br>
+                                        <label for="password">Password</label><br>
+                                        <input type="password" name="password" id="password" required><br>
+                                        <label for="photo">Select an profile picture</label><br>
+                                        <input type="file" id="photo" name="photo" required /><br>
+                                        <select name="religion" id="options">
+                                        <option value="Christianity">Christianity</option>
+                                        <option value="Muslim">Muslim</option>
+                                        </select><br>
+                                <div>
+                                <label for="gender">Gender:</label>
+                                <input type="checkbox" name="gender" id="male" value="male">
+                                <label for="male">Male</label>
+                                <input type="checkbox" name="gender" id="female" value="female">
+                                <label for="gender">Female</label>
+                                </div>
+                                </div>
+                            </div>
+                                
+                                <input id="submit" type="submit" value="Submit">
+                            </form>
+                        </div>
                 </div>
             </div>
-            
-            <div class="form-row">
-                <div class="col-25">
-                    <label for="admin_id">Admin ID</label>
-                </div>
-                <div class="col-75">
-                    <input type="text" name="admin_id" id="admin_id">
-                </div>     
-            </div>
-            <div class="submit-row">
-                <input type="submit" value="Submit">
-              </div>
-        </form>
-        <div class="col-12 col-md-6 course-id-name">
-            <!--this will be created dynamically-->
         </div>
     </section>
 </body>

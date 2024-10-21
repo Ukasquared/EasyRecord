@@ -5,12 +5,6 @@
     padding: 0;
 }
 
-.roboto-light {
-font-family: "Roboto", sans-serif;
-font-weight: 300;
-font-style: normal;
-}
-
 .roboto-regular {
 font-family: "Roboto", sans-serif;
 font-weight: 400;
@@ -23,51 +17,25 @@ font-weight: 500;
 font-style: normal;
 }
 
-.roboto-bold {
-font-family: "Roboto", sans-serif;
-font-weight: 700;
-font-style: normal;
-}
-
-.roboto-black {
-font-family: "Roboto", sans-serif;
-font-weight: 900;
-font-style: normal;
-}
-
-.roboto-thin-italic {
-font-family: "Roboto", sans-serif;
-font-weight: 100;
-font-style: italic;
-}
-
-.roboto-light-italic {
-font-family: "Roboto", sans-serif;
-font-weight: 300;
-font-style: italic;
-}
-
 body {
-    background-color: #3A0CA3;
+    background-color: #f8f2dc;
     overflow-x: hidden;
-    font-family: "Roboto",sans-serif;
-}
-section {
-    margin-bottom: 4rem;
-    font-size: 1rem;
-    color: #ffffff;
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
 }
 
-.admin-info .admin-details{
+
+/* ratio one styles */
+.ratio-one{
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
+    gap: 5rem;
 }
 
-.row1, .row2, .row3, .row4 {
-    display: flex;
-    gap: 4rem;
-}
+
+/* ratio-two styles */
 
 .admin-details .details {
     background: #3A0CA3;
@@ -99,12 +67,12 @@ section {
     font-size: 4rem;
 }
 
-input[type=text] {
-    width: 100%;
-    padding: 12px;
+input[type=text], input[type=password]{
+    width:80%;
+    padding: .4rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    resize: vertical;
+    /* resize: vertical; */
   }
   
   label {
@@ -119,11 +87,11 @@ input[type=text] {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    float: right;
+    /* float: right; */
   }
   
   input[type=submit]:hover {
-    background-color: #3A0CA3;
+    background-color:rgb(232, 72, 85, 0.7);
   }
   
   .col-25 {
@@ -142,3 +110,52 @@ input[type=text] {
     display: table;
     clear: both;
   }
+
+/*** sign up page style ***/
+.register {
+    position: relative;
+    background: #e84855;
+    padding: 2rem;
+    color: #ffffff;
+    font-size: 1rem;
+}
+.all-style option {
+    font-size: 1rem;
+}
+
+.all-style input,
+.all-style select {
+    margin-bottom: .4rem;
+}
+
+.admin-signup {
+    display: flex;
+    gap: 2rem;
+}
+
+#submit {
+    position: absolute;
+    bottom: 2rem;
+    left: 25rem;
+    background-color: #3A0CA3;
+}
+
+#submit:hover {
+    background-color: rgb(58, 12, 163, 0.7);
+}
+
+.register input[type=text] {
+    width: 100%;
+
+}
+
+.register p {
+    font-size: 2rem;
+    color: #3A0CA3;
+}
+
+.enrollment-form p,
+#enroll-course p {
+    font-size: 2rem;
+    color: #e84855;
+}
