@@ -84,4 +84,3 @@ def grade_student():
         course.score = int(score)
         storage.save()
         return jsonify({"message": "student successfully graded"}), 200
-        
