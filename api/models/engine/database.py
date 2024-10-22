@@ -15,6 +15,9 @@ class Database:
     """store users
     info into database
     """
+    user_model = {'admin': Admin, 'student': Student,
+              'parent': Parent, 'teacher': Teacher}
+
     _engine = None
     _session = None
 
@@ -58,6 +61,17 @@ class Database:
         user = self._session.query(obj).filter_by(**kwargs).first()
         return user
     
+    def find_all_user(self, first_name):
+        """find user based on keyworded
+        args"""
+        all_users = []
+        for user in self.user_model:
+            found_user = self._session.query(user).\
+                filter(user.name.in_([first_name])).all()
+            if len(found_user) != 0:
+                all_users.append(found_user)
+        return all_users
+
     def update_user_info(self, obj, **kwargs):
         """update the user data
         in the database"""

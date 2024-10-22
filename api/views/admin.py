@@ -1,13 +1,11 @@
 from api.views import app_routes
 from api.views.role import role_required
 from flask import request, jsonify
-# from ..models.admin import Admin
 from api.auth import Auth
-# from api.models import storage
+from api.models import storage
 
 # enroll student in course - endpoint
 # assign admin for a course - endpoint
-
 
 auth = Auth()
 
@@ -28,10 +26,11 @@ def enroll_student():
             return jsonify({"error": "missing or invalid json file"}), 400
         student_id = data.get("student_id")
         course_id = data.get("course_id")
-        if not student_id or not course_id:
+        teacher_id = data.get('teacher_id')
+        if not student_id or not course_id or not teacher_id:
             return jsonify({"error": "missing or invalid json file"}), 400
         try:
-            student_name = auth.enroll_student_course(course_id, student_id)
+            student_name = auth.enroll_student_course(course_id, student_id, teacher_id)
             return jsonify({"msg": f"{student_name} successfully registered"})
         except ValueError:
             return jsonify({"error": "missing or invalid json file"}), 400
@@ -71,4 +70,23 @@ def admin():
                         }
                 return jsonify(admin_data), 200
         return jsonify({"message": "Incorrect Credentials"}), 405
-            
+
+@app_routes.route('/search_user', methods=['POST'], strict_slashes=False)
+@role_required('admin')
+def search_for_user_by_name():
+    """search for all or
+        any user can be fetched
+        from the database and
+        their fullname and id
+        will be displayed
+    """
+    if request.method == 'POST':
+        data = request.get_json()
+        if data:
+            name = data.get('name')
+            if not name:
+                return jsonify({"error": "incorrect credentials"}), 405
+            all_users = storage.find_all_user(name)
+            if len(all_users) != 0:
+                return jsonify(all_users) # loop all users and return their data
+        return jsonify({"error": "missing or invalid json file"}), 400

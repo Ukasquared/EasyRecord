@@ -70,13 +70,15 @@ class Auth:
         new_course.new()
         return new_course.id
     
-    def enroll_student_course(self, course_id, student_id):
+    def enroll_student_course(self, course_id, student_id, teacher_id):
         """enroll a student in a course"""
         student = models.storage.find_user(Student, id=student_id)
         course = models.storage.find_user(Course, id=course_id)
-        if not student or not course:
+        teacher = models.storage.find_all_user(Teacher, id=teacher_id)
+        if not student or not course or not teacher:
             raise ValueError('course or student not registered')
         student.course.append(course)
+        student.teacher.append(teacher)
         models.storage.save()
         return student.firstname
 
