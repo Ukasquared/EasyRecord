@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -20,7 +22,7 @@ font-style: normal;
 body {
     background-color: #f8f2dc;
     overflow-x: hidden;
-    font-family: "Roboto", sans-serif;
+    font-family: "Inconsolata", sans-serif;
     font-weight: 600;
 }
 
@@ -29,50 +31,64 @@ body {
 .ratio-one{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
     gap: 5rem;
+    background: #3A0CA3;
+    color: #f8f2dc;
+    font-size: 1.4rem;
+}
+.img-container {
+    border-radius: 50%;
+    width: 50%;
+    height: 10rem;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    outline: #f8f2dc solid 5px;
+    margin-top: 2rem;
+}
+.row3 p {
+    font-size: 1rem;
+}
+.row3 .fname {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+}
+
+.menu-btn p{
+    margin-bottom: 2rem;
+    cursor: pointer;
 }
 
 
 /* ratio-two styles */
-
-.admin-details .details {
-    background: #3A0CA3;
-    padding: 3rem;
+.ratio-two {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
 }
-.infomatics .informatt {
-    text-align: center;
+.first-row {
+    display: flex;
+    gap: 4rem;
+    align-items: center;
 }
-.informat {
-    gap: 2rem;
-    color: #ffffff;
-    font-size: 2rem;
-}
-
-.informat .total-teacher,
-.informat .total-student {
+.total-teacher,
+.total-student {
     display: flex;
     gap: 1.5rem;
     flex-direction: column;
     justify-items: center;
     align-items: center;
     background-color: #e84855;
-    padding: 1.5rem 0;
+    padding: 2rem 0;
     width: 12rem;
-}
-
-.informat .total-teacher span,
-.informat .total-student span {
-    font-size: 4rem;
+    font-size: 3rem;
+    color: #f8f2dc;
 }
 
 input[type=text], input[type=password]{
-    width:80%;
-    padding: .4rem;
+    /* width:80%; */
+    padding: .1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    /* resize: vertical; */
   }
   
   label {
@@ -82,7 +98,7 @@ input[type=text], input[type=password]{
   
   input[type=submit] {
     background-color: #e84855;
-    color: white;
+    color: #f8f2dc;
     padding: 12px 20px;
     border: none;
     border-radius: 4px;
@@ -94,68 +110,71 @@ input[type=text], input[type=password]{
     background-color:rgb(232, 72, 85, 0.7);
   }
   
-  .col-25 {
-    float: left;
-    width: 25%;
-    margin-top: 6px;
-  }
-  
-  .col-75 {
-    float: left;
-    width: 75%;
-    margin-top: 6px;
-  }
-  .form-row::after {
-    content: "";
-    display: table;
-    clear: both;
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-/*** sign up page style ***/
-.register {
-    position: relative;
-    background: #e84855;
-    padding: 2rem;
-    color: #ffffff;
-    font-size: 1rem;
-}
-.all-style option {
-    font-size: 1rem;
-}
-
-.all-style input,
-.all-style select {
-    margin-bottom: .4rem;
-}
-
-.admin-signup {
+/*** second row style***/
+  .second-row {
     display: flex;
     gap: 2rem;
+  }
+  /* .first-half {
+    width: 50%;
+}
+.second-half {
+    width: 50%;
+} */
+.form-row label{
+    color: #30343F;
+  }
+  
+.course-reg {
+    color: #30343F;
+    font-size: 2rem;
+  }
+
+.register {
+    /* position: relative; */
+    background: #e84855;
+    padding: 2rem;
+    color:#f8f2dc;
+    font-size: 1rem;
+    /* width: 100%; */
+}
+.all-style {
+    display: flex;
+    gap: 1rem;
+
 }
 
+.register p,
+.enrollment-form p {
+    font-size: 2rem;
+    color: #f8f2dc;
+}
+
+.enrollment-form p {
+    font-size: 2rem;
+    color: #30343F;
+}
 #submit {
-    position: absolute;
-    bottom: 2rem;
-    left: 25rem;
+    /* position: absolute; */
+    /* bottom: 2rem;
+    left: 25rem; */
     background-color: #3A0CA3;
 }
 
 #submit:hover {
     background-color: rgb(58, 12, 163, 0.7);
+} 
+
+input[type=file] {
+    margin-bottom: 1.5rem;
 }
 
-.register input[type=text] {
-    width: 100%;
-
-}
-
-.register p {
-    font-size: 2rem;
-    color: #3A0CA3;
-}
-
-.enrollment-form p,
-#enroll-course p {
-    font-size: 2rem;
-    color: #e84855;
+.search-btn {
+    margin-top: 1rem;
 }

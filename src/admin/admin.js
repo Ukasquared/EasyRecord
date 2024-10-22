@@ -22,8 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
             // display user data
             document.querySelector('.uuid').innerHTML = admin_info.id;
-            document.querySelector('.fname').innerHTML = admin_info.firstname;
-            document.querySelector('.lname').innerHTML = admin_info.lastname;
+            document.querySelector('.fname').innerHTML = `${admin_info.firstname} ${admin_info.lastname}`;
             document.querySelector('.email').innerHTML = admin_info.email;
             document.querySelector('.gender').innerHTML = admin_info.gender;
     
@@ -37,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
             imageDiv.innerHTML = '';
             image.src = `http://127.0.0.1:5500/api/images/${admin_info.photo}`;
             image.style.display = 'block';
-            image.style.width = '20rem'
+            image.style.width = '15rem'
             imageDiv.appendChild(image);
     
             // // display course

@@ -16,36 +16,37 @@
 <body class="container-fluid">
     <!---two 1 : 3-->
     <section class="row">
-        <div class="col-3 ratio-one">
-            <div class="col-12 col-md-2 img-container">
-                This is an image container
+        <div class="col-12 col-md-3 ratio-one">
+            <div>
+                <div class="img-container">
+                    This is an image container
+                </div>
+                <div class="row3">
+                    <p class="fname">chidolue</p>
+                    <p class="email">bobdryan@gmail.com</p>
+                    <p class="uuid">chidie</p>
+                    <p class="gender">Female</p>
+                </div>
             </div>
-            <div class="row3">
-                <p>ID</p>
-                <p class="email">bobdryan@gmail.com</p>
-                <p class="uuid">chidie</p>
-                <p class="fname">chidolue</p>
-                <p class="lname">Great</p>
-                <p class="gender">Female</p>
-            </div>
-            <div class="row4">
+            <div class="menu-btn">
                 <p>Register a Course</p>
                 <p>Recruitment / enrollment</p>
+                <p>Logout</p>
             </div>
-            <p>Logout</p>
+            
         </div>
-        <div class="col-9 ratio-two">
+        <div class="col-12 col-md-9 ratio-two">
             <div class="first-row">
-                <div class="col total-student">
+                <div class="total-student">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <span class="student">13</span>
                 </div>
-                <div class="col total-teacher">
+                <div class="total-teacher">
                     <i class="fa-solid fa-chalkboard-user"></i>
                     <span class="teacher">5</span>
                 </div>
-                <form class="col-12 col-md-6" id="enroll-course">
-                    <p>Register a Course</p>
+                <form id="enroll-course">
+                    <p class="course-reg">Register a Course</p>
                     <div class="form-row">
                         <div class="col-25">
                             <label for="teacher_id">Teacher ID</label>
@@ -79,9 +80,10 @@
             <div class="second-row">
                 <div class="first-half">
                     <!---Enroll Course-->
-                    <div class="col-12 col-md-6 enrollment-form">
-                        <p>Enroll Student Into a Course</p>
-                        <form id="enroll-student">
+                    <div class="enrollment-form">
+                        <div>
+                            <p>Enroll Student Into a Course</p>
+                            <form id="enroll-student">
                             <div class="form-row">
                                 <div class="col-25">
                                     <label for="course_id">Course ID</label>
@@ -99,31 +101,32 @@
                                     <input type="text" name="studentid" id="studentid" required>
                                 </div>     
                             </div>
-                            
+
                             <div class="submit-row">
                                 <input type="submit" value="Submit">
-                              </div>
+                            </div>
                         </form>
-                    </div>
-                    <div class="search-btn">
-                        <label for="search">search for members of School</label>
-                        <i class="fa-solid fa-magnifying-glass"></i>input type="text" name="" id="">
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                        <div class="search-btn">
+                            <label for="search">search for members of School</label><br>
+                            <input type="text" name="" id="">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
                     </div>
                 </div>
                 <div class="second-half">
-                    <div class="col-12 col-md-6 register">
+                    <div class="register">
                         <!--Enroll Student and Staff-->
                         <p> Enroll Staff and Student</p>
                             <form class="form-signup">
                                 <div class="admin-signup all-style">
                                     <div>
                                         <label for="myDropdown">Choose an option:</label>
-                                    <select id="myDropdown" name="role">
-                                    <option value="student">Student</option>
-                                    <option value="teacher">Teacher</option>
-                                    <option value="parent">Parent</option>
-                                    </select><br>
+                                        <select id="myDropdown" name="role">
+                                        <option value="student">Student</option>
+                                        <option value="teacher">Teacher</option>
+                                        <option value="parent">Parent</option>
+                                        </select><br>
                                         <label for="firstname">Firstname:</label><br>
                                         <input type="text" name="firstname" id="firstname" required><br>
                                         <label for="lastname">Lastname:</label><br>
@@ -144,16 +147,15 @@
                                         <option value="Christianity">Christianity</option>
                                         <option value="Muslim">Muslim</option>
                                         </select><br>
-                                <div>
-                                <label for="gender">Gender:</label>
-                                <input type="checkbox" name="gender" id="male" value="male">
-                                <label for="male">Male</label>
-                                <input type="checkbox" name="gender" id="female" value="female">
-                                <label for="gender">Female</label>
-                                </div>
-                                </div>
+                                        <div>
+                                        <label for="gender">Gender:</label>
+                                        <input type="checkbox" name="gender" id="male" value="male">
+                                        <label for="male">Male</label>
+                                        <input type="checkbox" name="gender" id="female" value="female">
+                                        <label for="gender">Female</label>
+                                        </div>
+                                    </div>
                             </div>
-                                
                                 <input id="submit" type="submit" value="Submit">
                             </form>
                         </div>
