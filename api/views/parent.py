@@ -5,25 +5,24 @@ from api.views.role import role_required
 from flask import request, jsonify
 from api.models import storage
 from api.models.parent import Parent
-from api.models.student import Student
+# from api.models.student import Student
 # from models.course import Course
 
 
+@app_routes.route('/parent_dashboard', methods=['POST'], strict_slashes=False)
 @role_required('parent')
-@app_routes.route('/parent_dashboard', strict_slashes=False)
 def parent_dashboard():
     """returns student
     scores"""
-    data = request.get_json()
-    if not data:
+    session_id = request.cookies.get('session_id')
+    if not session_id:
         return jsonify({"error": "missing or invalid json file"}), 400
-    email = data.get('email')
-    if email:
-        parent = storage.find_user(Parent, email=email)
-        # fetch the parents information
-        # fetch the student names, course offered and score that is connected to the parent
-        # student_id = parent.student_id
-        # student = storage.find_user(Student, id=student_id)
+    parent = storage.find_user(Parent, session_id=SystemError)
+    # fetch the parents information
+    # fetch the student names, course offered and score that is connected to the parent
+    # student_id = parent.student_id
+    # student = storage.find_user(Student, id=student_id)
+    if parent:
         student = parent.student
         course_detail = []
         if student:

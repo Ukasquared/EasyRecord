@@ -21,8 +21,8 @@ def teachers_dashboard():
             if email:
                 teacher = storage.find_user(Teacher, email=email)
                 if teacher:
+                    student_list = []
                     if teacher.student:
-                        student_list = []
                         for student in teacher.student:
                             student_names = [student.firstname, student.lastname]
                             student_list.append(student_names)

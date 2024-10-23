@@ -37,7 +37,33 @@
              <!--teacher record score of student-->
              
             <div class="student-info col-12 col-md-9 ratio-two">
-                <!---student name, course title, score-->
+                <!---student first name and last name-->
+                <div class="notification">
+
+                </div>
+                <section class="search-grade">
+                    <div class="search">
+                        <form  id="search-form">
+                        <input type="text" name="first-name" id="first-name">
+                        <i class="fa-solid fa-magnifying-glass"></i><br>
+                        </form>
+                        
+                    </div>
+                    <div class="grade-form">
+                        <form  id="grade">
+                            <label for="student-id">Student ID</label><br>
+                            <input type="text" name="student-id" id="student-id" required><br>
+                            <label for="title">Course title</label><br>
+                            <input type="text" name="title" id="title" required><br>
+                            <label for="score">Score</label><br>
+                            <input type="text" name="score" id="score" required><br>
+                            <input type="submit" value="submit">
+                        </form>
+                       
+                    </div>
+                    <div class="display-search">
+                    </div>
+                </section>
             </div>
         </section>
 </body>
