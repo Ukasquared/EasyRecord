@@ -63,20 +63,23 @@ class Auth:
     
     def register_course(self, admin_id, teacher_id, title):
         """registers a course"""
-        course = models.storage.find_user(Course, admin_id )
+        course = models.storage.find_user(Course, title=title)
         if course:
             raise ValueError('course already registered')
         new_course = Course(admin_id=admin_id, teacher_id=teacher_id, title=title)
         new_course.new()
         return new_course.id
     
-    def enroll_student_course(self, course_id, student_id, teacher_id):
+    def enroll_student_course(self, course_id, student_id):
         """enroll a student in a course"""
         student = models.storage.find_user(Student, id=student_id)
         course = models.storage.find_user(Course, id=course_id)
-        teacher = models.storage.find_all_user(Teacher, id=teacher_id)
-        if not student or not course or not teacher:
-            raise ValueError('course or student not registered')
+        if not student or not course:
+            raise ValueError('invalid json data')
+        teacher = models.storage.find_user(Teacher, id=course.teacher_id)
+        for each_course in student.course:
+            if each_course.id == course_id:
+                raise ValueError('course is already registered')
         student.course.append(course)
         student.teacher.append(teacher)
         models.storage.save()
@@ -96,6 +99,17 @@ class Auth:
         except:
             raise ValueError
         return state
+    
+    def get_user_role_id(self, email):
+        """gets user role id"""
+        classes = list(self.user_model.values())
+        try:
+            for v in classes:
+                user = models.storage.find_user(v, email=email)
+                if user:
+                    return user.role
+        except:
+            raise ValueError
 
     def create_session(self, email):
         """create session"""
@@ -126,7 +140,7 @@ class Auth:
         """destroy user session"""
         for v in self.user_model.values():
              user = models.storage.find_user(
-                 v, user_id=user_id)
+                 v, id=user_id)
              if user:
                  user.session_id = None
                  break

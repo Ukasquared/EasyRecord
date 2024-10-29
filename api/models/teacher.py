@@ -13,7 +13,7 @@ class Teacher(BaseModel, Base):
 
     course = relationship("Course", back_populates="teacher", uselist=False)
     admin_id = Column(String(40), ForeignKey('admin.id'), nullable=False)
-    student = relationship('Student',  secondary="teacher_student",  back_populates="teacher") 
+    student = relationship('Student',  secondary="teacher_student", back_populates="teacher") 
     admin = relationship("Admin", back_populates="teacher")
 
     def __repr__(self) -> str:

@@ -26,14 +26,15 @@ def enroll_student():
             return jsonify({"error": "missing or invalid json file"}), 400
         student_id = data.get("student_id")
         course_id = data.get("course_id")
-        teacher_id = data.get('teacher_id')
-        if not student_id or not course_id or not teacher_id:
+        # teacher_id = data.get('teacher_id')
+        if not student_id or not course_id:
             return jsonify({"error": "missing or invalid json file"}), 400
         try:
-            student_name = auth.enroll_student_course(course_id, student_id, teacher_id)
-            return jsonify({"msg": f"{student_name} successfully registered"})
+            student_name = auth.enroll_student_course(course_id, student_id)
+            return jsonify({"message": f"{str(student_name)} successfully registered"}), 200
         except ValueError:
-            return jsonify({"error": "missing or invalid json file"}), 400
+            print('invalid2')
+            return jsonify({"error": "Already Registered or Invalid data"}), 404
 
 
 
@@ -66,7 +67,7 @@ def admin():
                             "photo": admin.photo,
                             "courses_with_id": all_courses,
                             "total_student": total_student,
-                            "total_ teacher": total_teacher
+                            "total_teacher": total_teacher
                         }
                 return jsonify(admin_data), 200
         return jsonify({"message": "Incorrect Credentials"}), 405
@@ -88,5 +89,9 @@ def search_for_user_by_name():
                 return jsonify({"error": "incorrect credentials"}), 405
             all_users = storage.find_all_user(name)
             if len(all_users) != 0:
+                users = []
+                for user in all_users:
+                    new_user = [user.id, user.firstname, user.lastname]
+                    users.append(new_user)
                 return jsonify(all_users) # loop all users and return their data
         return jsonify({"error": "missing or invalid json file"}), 400

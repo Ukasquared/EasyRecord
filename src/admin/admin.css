@@ -178,3 +178,7 @@ input[type=file] {
 .search-btn {
     margin-top: 1rem;
 }
+
+#logout {
+    cursor: pointer;
+}

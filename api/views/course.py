@@ -23,7 +23,7 @@ def register_course():
             title = data.get('title')
             try:
                 course_id = auth.register_course(admin_id, teacher_id, title)
-                return jsonify({"course_id": course_id}), 200
+                return jsonify({"course_id": str(course_id)}), 200
             except ValueError:
-                return jsonify({"error": "missing or invalid json file"}), 400
+                return jsonify({"error": "Course already registered"}), 400
         return jsonify({"error": "missing or invalid json file"}), 400

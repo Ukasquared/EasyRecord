@@ -26,9 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelector('.email').innerHTML = admin_info.email;
             document.querySelector('.gender').innerHTML = admin_info.gender;
     
-            //  // display total student and teacher
-            // document.querySelector('.student').innerHTML = admin_info.total_student;
-            // document.querySelector('.teacher').innerHTML = admin_info.total_teacher;
+             // display total student and teacher
+            document.querySelector('.student').innerHTML = admin_info.total_student;
+            document.querySelector('.teacher').innerHTML = admin_info.total_teacher;
     
             // display image
             const imageDiv  =  document.querySelector('.img-container');
@@ -58,9 +58,10 @@ document.addEventListener("DOMContentLoaded", () => {
      }
      
      loadAdmin();
+     
 
+    // sign up
     const form = document.querySelector('.form-signup');
-
     async function sendFormData() {
         const formData = new FormData(form);
         console.log(formData)
@@ -73,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert('registration failed');
                 throw new Error(`Response status: ${response.status}`);
             }
-        
+            
             const res = await response.json();
             console.log(res.message)
             alert("registered successfully with ID " + res.message);
@@ -81,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (error) {
             console.log(error.message);
         }
-}
+    }
 
     form.addEventListener("submit", function(e) {
         // e = event object
@@ -89,71 +90,112 @@ document.addEventListener("DOMContentLoaded", () => {
         sendFormData();
         form.reset()
     })
+
+    // register a course
+    const courseForm = document.getElementById('enroll-course');
+
+    const courseData = async () => {
+        const title = document.getElementById('title').value;
+        const teacherID = document.getElementById('teacher_id').value;
+        const adminID= document.getElementById('adminid').value;
+        try {
+
+            const response = await fetch('api/register_a_course', {
+                method: "POST",
+                headers: {
+                    'Content-Type': "application/json",
+                    'Authorization': `Bearer ${jwt_token}`
+                },
+                body: JSON.stringify({
+                    'title': title,
+                    'teacher_id': teacherID,
+                    'admin_id': adminID,
+                }),
+            });
+                
+            if (!response.ok) {
+                alert('course not yet registered');
+                console.log('course not yet registered' + response.status);
+            }
+            const data = await response.json();
+            console.log(data);
+            alert('course created succesfully with ID' + data)
+        } catch (error) {
+            console.log(error.message);
+        }
+            
+        }
+
+    courseForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        courseData()
+        courseForm.reset();
+    })
+
+    // register a student in a course
+    const regStud = document.getElementById('enroll-student');
+
+    async function regStudCourse() {
+        const studentID = document.getElementById('studentid').value;
+        const courseID = document.getElementById('course_id').value;
+        // const teacherID = document.getElementById('teacherid').value;
+
+        const response = await fetch('api/enroll_student_in_course', {
+            method: "POST",
+            headers: {
+                'Content-Type': "application/json",
+                'Authorization': `Bearer ${jwt_token}`
+            },
+            body: JSON.stringify({
+                'student_id': studentID,
+                'course_id': courseID,
+            }),
+        })
+
+        if (response.status === 404) {
+            const error = await response.json();
+            console.log(error.error);
+            return;
+        }
+
+        if (response.status === 401) {
+            // If token is expired or invalid, redirect to login page
+            alert('Session expired. Redirecting to login...');
+            localStorage.removeItem('access_token');  // Clear expired token
+            window.location.href = '/login.html';  // Redirect to login page
+          } 
+
+        if (!response.ok) {
+            alert('unable to enroll student into a course');
+            console.log('not successful');
+            return;
+        }
+
+        const data = await response.json();
+        console.log(data.message);
+    }
+
+    regStud.addEventListener('submit', (e) => {
+        e.preventDefault();
+        regStudCourse();
+        regStud.reset();
+    })
  });
 
-// register a course
- const courseForm = document.getElementById('enroll-course');
+ const logOut = document.getElementById('logout');
 
- const courseData = async () => {
-    const title = document.getElementById('title').value;
-    const teacherID = document.getElementById('teacher_id').value;
-    const adminID= document.getElementById('adminid').value;
+ logOut.onclick = async function () {
+    try {
+        const response = await fetch('api/logout', {
+            method: "DELETE"
+        });
+        if (!response.ok){
+            alert('failed to logout');
+        }
+        
+        window.location.replace('/login.html');  // Redirect to login page
 
-    const response = await fetch('/register_a_course', {
-        method: "POST",
-        headers: {
-            'Content-Type': "application/json"
-        },
-        body: JSON.stringify({
-           'title': title,
-            'teacher_id': teacherID,
-            'admin_id': adminID,
-        }),
-    });
-    if (!response.ok) {
-        alert('try again');
-        throw new Error('course not yet registered')
+    } catch (error) {
+        console.log(error.message);
     }
-
-    const data = await response.json();
-    console.log(data);
-    alert('course created succesfully with ID' + data)
  }
-
- courseForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    courseData()
-    courseForm.reset();
- })
-
- // register a student in a course
-const regStud = document.getElementById('enroll-student');
-
-async function regStudCourse() {
-    const studentID = document.getElementById('studentid');
-    const courseID = document.getElementById('course_id')
-
-    const response = await fetch('/enroll_student_in_course', {
-        method: "POST",
-        headers: {
-            'Content-Type': "application/json"
-        },
-        body: JSON.stringify({
-            'student_id': studentID,
-            'course_id': courseID,
-        }),
-    })
-    if (!response.ok) {
-        alert('unable to enroll student into a course');
-        throw new Error('unable to enroll student into a course');
-    }
-
-    const data = await response.json();
-    alert(data);
-}
-
-regStud.addEventListener('submit', (e) => {
-    e.preventDefault();
-    regStudCourse();
-    regStud.reset();
-})

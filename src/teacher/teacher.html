@@ -31,35 +31,32 @@
                 <div class="menu-btn">
                     <p>Register a Course</p>
                     <p>Recruitment / enrollment</p>
-                    <p>Logout</p>
+                    <p id="logout">Logout</p>
                 </div>
             </div>
              <!--teacher record score of student-->
              
             <div class="student-info col-12 col-md-9 ratio-two">
                 <!---student first name and last name-->
-                <div class="notification">
-
-                </div>
-                <section class="search-grade">
-                    <div class="search">
+                <section class="row search-grade">
+                    <div class="col search d-flex justify-content-center">
                         <form  id="search-form">
-                        <input type="text" name="first-name" id="first-name">
-                        <i class="fa-solid fa-magnifying-glass"></i><br>
+                        <label for="first-name">Search for Student by first name</label><br>
+                        <input type="search" name="first-name" id="first-name">
+                        <input style="font-family: FontAwesome" type="submit" value="&#xf002">
                         </form>
                         
                     </div>
-                    <div class="grade-form">
+                    <div class="col grade-form">
                         <form  id="grade">
                             <label for="student-id">Student ID</label><br>
                             <input type="text" name="student-id" id="student-id" required><br>
                             <label for="title">Course title</label><br>
                             <input type="text" name="title" id="title" required><br>
                             <label for="score">Score</label><br>
-                            <input type="text" name="score" id="score" required><br>
+                            <input type="text" name="score" id="score" required><br><br>
                             <input type="submit" value="submit">
                         </form>
-                       
                     </div>
                     <div class="display-search">
                     </div>

@@ -31,7 +31,7 @@
             <div class="menu-btn">
                 <p>Register a Course</p>
                 <p>Recruitment / enrollment</p>
-                <p>Logout</p>
+                <p id="logout">Logout</p>
             </div>
             
         </div>
@@ -79,7 +79,7 @@
             </div>
             <div class="second-row">
                 <div class="first-half">
-                    <!---Enroll Course-->
+                    <!---Enroll Studen in Course-->
                     <div class="enrollment-form">
                         <div>
                             <p>Enroll Student Into a Course</p>
@@ -101,24 +101,26 @@
                                     <input type="text" name="studentid" id="studentid" required>
                                 </div>     
                             </div>
-                            <div class="form-row">
+                            <!-- <div class="form-row">
                                 <div class="col-25">
                                     <label for="teacherid">Teacher ID</label>
                                 </div>
                                 <div class="col-75">
                                     <input type="text" name="teacherid" id="teacherid" required>
                                 </div>     
-                            </div>
+                            </div> -->
 
                             <div class="submit-row">
                                 <input type="submit" value="Submit">
                             </div>
                         </form>
                         </div>
-                        <div class="search-btn">
-                            <label for="search">search for members of School</label><br>
-                            <input type="text" name="" id="">
-                            <i class="fa-solid fa-magnifying-glass"></i>
+                        <div>
+                            <form class="search-btn">
+                                <label for="search">search for members of School</label><br>
+                                <input type="search" name="search" id="search">
+                                <input style="font-family: FontAwesome" type="submit" value="&#xf002">
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -33,17 +33,18 @@ def login_user():
     if request.method == "POST":
         data = request.get_json()
         if data:
-            role = data.get('role')
+            # role = data.get('role')
             email = data.get('email')
             password = data.get('password')
+            role = auth.get_user_role_id(email)
             if email and password and role:
                 state = auth.validate_login(email, password)               
             if state:
                 session_id = auth.create_session(email)
                 print(session_id)
                 # create a jwt token with the users role included
-                access_token = create_access_token(identity=role, expires_delta=(timedelta(minutes=30)))
-                response_body = jsonify({'token': access_token})
+                access_token = create_access_token(identity=role, additional_claims={'email': email}, expires_delta=(timedelta(minutes=30)))
+                response_body = jsonify({'token': access_token, 'role': role})
                 response = make_response(response_body, 200)
                 response.set_cookie("session_id", session_id, httponly=True)
                 return response
@@ -59,7 +60,8 @@ def logout_user():
     user = auth.get_usr_from_session_id(cookie)
     if user:
         auth.destroy_session(user.id)
-        redirect("/")
+        return jsonify({"message": "user exist"})
+        # redirect('/')
     else:
         abort(403)
 

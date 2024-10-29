@@ -11,33 +11,30 @@ from api.models.student import Student
 # fetch the names of student offering their course
 
 
-@app_routes.route('/teachers_dashboard', methods=['POST'], strict_slashes=False)
+@app_routes.route('/teachers_dashboard', methods=['GET'], strict_slashes=False)
 @role_required('teacher')
 def teachers_dashboard():
-    if request.method == "POST":
-        data = request.get_json()
-        if data:
-            email = data.get('email')
-            if email:
-                teacher = storage.find_user(Teacher, email=email)
-                if teacher:
-                    student_list = []
-                    if teacher.student:
-                        for student in teacher.student:
-                            student_names = [student.firstname, student.lastname]
-                            student_list.append(student_names)
-                    teacher_data = {"teacher": {
-                        'id':  teacher.id,
-                        'firstname': teacher.firstname,
-                        'lastname': teacher.lastname,
-                        "email": teacher.email,
-                        "gender": teacher.gender,
-                        "photo": teacher.photo,
-                        "course": teacher.course.title,
+    if request.method == "GET":
+        session_id = request.cookies.get('session_id')
+        if session_id:
+            teacher = storage.find_user(Teacher, session_id=session_id)
+            if teacher:
+                print(teacher)
+                student_list = []
+                if teacher.student:
+                    for student in teacher.student:
+                        student_names = [student.firstname, student.lastname]
+                        student_list.append(student_names)
+                teacher_data = {"teacher": {
+                    "photo": teacher.photo,
+                    "gender": teacher.gender,
+                    "course": teacher.course.title,
+                    'id':  teacher.id,
+                    'name': f"{teacher.firstname} {teacher.lastname}",
                     }, "students": student_list 
                     }
-                    return jsonify(teacher_data), 200
-        return jsonify({"error": "missing or invalid json file"}), 400
+            return jsonify(teacher_data), 200
+    return jsonify({"error": "missing or invalid json file"}), 400
 
 
 @app_routes.route('/search_for_student', methods=['POST'], strict_slashes=False)
@@ -52,7 +49,7 @@ def search_for_student_by_name():
         student_name = data.get('name')
         if not student_name:
             return jsonify({"error": "Forbidden"}), 403
-        student = storage.find_user(Student, first_name=student_name)
+        student = storage.find_user(Student, firstname=student_name)
         return jsonify({
             'id':  student.id,
             'firstname': student.firstname,
@@ -80,7 +77,11 @@ def grade_student():
         if not score or not student_id or not course_title:
             return jsonify({"error": "Forbidden"}), 403
         student = storage.find_user(Student, id=student_id )
-        course = storage.find_user(Course, title=course_title, student=student)
-        course.score = int(score)
+        if not student or not student.course:
+            return jsonify({"error": "student or course not found"})
+        for course in student.course:
+            if course.title == course_title:
+                course.score = int(score)
+                break
         storage.save()
         return jsonify({"message": "student successfully graded"}), 200

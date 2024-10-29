@@ -34,7 +34,7 @@ class Database:
     def connect(self) -> None:
         """connect to the database
         and also create a session"""
-        Base.metadata.drop_all(self._engine)
+        # Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         Session = sessionmaker(bind=self._engine, expire_on_commit=False)
         session = scoped_session(Session)
@@ -63,7 +63,8 @@ class Database:
     
     def find_all_user(self, first_name):
         """find user based on keyworded
-        args"""
+        args
+        """
         all_users = []
         for user in self.user_model:
             found_user = self._session.query(user).\

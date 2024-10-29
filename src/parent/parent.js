@@ -9,50 +9,66 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href='login.html';
         }
         try {
-            const parentInfo = await fetch('/parent_dashboard', {
-                method: "POST",
+            const parentInfo = await fetch('api/parent_dashboard', {
+                method: "GET",
                 headers: {
-                    'Authorization': `Bearer ${jwt_token}`
+                    'Authorization': `Bearer ${jwt_token}`,
                 }
             })
+
+            if (parentInfo.status === 401) {
+                // If token is expired or invalid, redirect to login page
+                alert('Session expired. Redirecting to login...');
+                localStorage.removeItem('access_token');  // Clear expired token
+                window.location.href = '/login.html';  // Redirect to login page
+              } 
+
+            if (!parentInfo.ok) {
+                alert('invalid request');
+                return;
+            }
             const response = await parentInfo.json();
+            const parentRow = document.querySelector('.row3');
+            parentRow.innerHTML = "";
             Object.entries(response).forEach(([key, values]) => {
-                const elOne = document.querySelector('.row3');
                 if (key === 'parent') {
-                    Object.entries(values).forEach(([sub_key, sub_value]) => {
-                        if (sub_key == 'photo') {
-                            const img = document.createElement('img');
-                            img.src = `http://127.0.0.1:5500/api/images/${sub_value}`
-                            document.querySelector('.img-container');
-                        }
+                    values.forEach((element) => {
                         const elTwo = document.createElement('p');
-                        elTwo.textContent = sub_value;
-                        elOne.append(elTwo);
+                        elTwo.textContent = element;
+                        parentRow.append(elTwo);
                     })
-                }
-                if (key === 'student') {
-                    const studentDiv = document.querySelector('student-info')
+                } else if (key === 'student') {
+                    const studentDiv = document.querySelector('.student-info');
                     Object.entries(values).forEach(([sub_key, sub_value]) => {
-                        const elTwo = document.createElement('p');
-                        elTwo.textContent = sub_value;
-                        studentDiv.append(elTwo);
                         if (sub_key === 'course') {
                             // course is an array of dictionary;
-                            const new_div = document.createElement('div');
-                            new_div.setAttribute('class', 'course-list');
-                            sub_key.forEach((element) => {
+                            const newDivOne = document.createElement('div');
+                            newDivOne.setAttribute('class', 'course-list');
+                            sub_value.forEach((element) => {
                                 Object.entries(element).forEach(([key, value]) => {
                                     // const course = `<p>${key}</p><p>${value}</p>`
+                                    const newDivTwo = document.createElement('div');
                                     const pOne = document.createElement('p');
                                     const pTwo = document.createElement('p');
                                     pOne.textContent = key;
                                     pTwo.textContent = value;
-                                    new_div.append(pOne,pTwo);
+                                    newDivTwo.append(pOne,pTwo);
+                                    newDivOne.append(newDivTwo)
                                 })
                             })
-                            studentDiv.append(new_div);
+                            studentDiv.append(newDivOne);
+                        } else {
+                            const elTwo = document.createElement('p');
+                            elTwo.textContent = sub_value;
+                            studentDiv.append(elTwo);
                         }
                     })
+                } else {
+                    const img = document.createElement('img');
+                    img.src = `http://127.0.0.1:5500/api/images/${values}`;
+                    img.style.width = '15rem';
+                    document.querySelector('.img-container').innerHTML = "";
+                    document.querySelector('.img-container').append(img);
                 }
     
             })
@@ -65,3 +81,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     parentData();
 });
+
+const logOut = document.getElementById('logout');
+
+ logOut.onclick = async function () {
+    try {
+        const response = await fetch('api/logout', {
+            method: "DELETE"
+        });
+        if (!response.ok){
+            alert('failed to logout');
+        }
+        
+        window.location.replace('/login.html');  // Redirect to login page
+
+    } catch (error) {
+        console.log(error.message);
+    }
+ }

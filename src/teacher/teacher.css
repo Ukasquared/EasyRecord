@@ -14,6 +14,7 @@ body {
 
 /* ratio one styles */
 .ratio-one{
+    height: 100%;
     display: flex;
     flex-direction: column;
     gap: 5rem;
@@ -36,4 +37,56 @@ body {
 .row3 .fname {
     font-size: 1.5rem;
     text-transform: uppercase;
+}
+
+.search, .grade-form  {
+    margin-top: 2rem;
+}
+
+input[type="submit"] {
+    border: none;
+    background: #e84855;
+    padding: .5rem 1rem;
+    color: #ffffff;
+    border-radius: .2rem;
+    text-decoration: none;
+}
+
+input[type="submit"]:hover {
+    background: rgba(232, 72, 85, 0.7);
+}
+
+form input[type="text"] {
+    border: .12rem solid #000000;
+    background: transparent;
+    padding: .1rem;
+    width: 80%;
+}
+.grade-form input[type="text"] {
+    width: 50%;
+}
+
+#student_info {
+    display: inline-block;
+}
+#student_info span {
+    margin-right: 1rem;
+}
+
+.fa-solid {
+    color: #3A0CA3;
+    cursor: pointer;
+}
+
+.notification {
+    width: 10rem;
+    color: #ffffff;
+    background-color: #3A0CA3;
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+}
+
+#logout {
+    cursor: pointer;
 }
