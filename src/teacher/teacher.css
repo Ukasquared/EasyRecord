@@ -22,6 +22,11 @@ body {
     color: #f8f2dc;
     font-size: 1.4rem;
 }
+
+.parent-info {
+    position: relative;
+}
+
 .img-container {
     border-radius: 50%;
     width: 50%;
@@ -89,4 +94,19 @@ form input[type="text"] {
 
 #logout {
     cursor: pointer;
+}
+
+.search-el {
+    position: absolute;
+    left: 30rem;
+    top: 8rem;
+    background-color: #3A0CA3;
+    color: #ffffff;
+    font-weight: 600;
+    width: 25rem;
+}
+
+.search-el div {
+    display: flex;
+    gap: 2rem;
 }

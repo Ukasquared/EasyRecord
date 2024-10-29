@@ -68,30 +68,43 @@ document.addEventListener("DOMContentLoaded", () => {
     teacherData();
     
     async function searchStudent() {
-        const studentName = document.getElementById('first-name').value;
-        
-        const response = await fetch('api/search_for_student', {
-            method: "POST",
-            headers: {
-                'Authorization': `Bearer ${jwt_token}`,
-                'Content-Type': "application/json"
-            },
-            body: JSON.stringify({
-                'name': studentName,
+
+        try {
+            const studentName = document.getElementById('first-name').value;
+            const response = await fetch('api/search_for_student', {
+                method: "POST",
+                headers: {
+                    'Authorization': `Bearer ${jwt_token}`,
+                    'Content-Type': "application/json"
+                },
+                body: JSON.stringify({
+                    'name': studentName,
+                })
             })
-        })
-        const data = await response.json();
-        // data returns just one student data
-        const searchEl = document.querySelector('.display-search')
-        Object.entries(data).forEach(([key, value]) => {
-            const newEl = document.createElement('div');
-            const pOne = document.createElement('p');
-            const pTwo = document.createElement('p');
-            pOne.textContent = key;
-            pTwo.textContent = value;
-            newEl.append(pOne, pTwo);
-            searchEl.append(newEl);
-        })
+
+            if (!response.ok) {
+                console.log(response.message);
+            }
+            const data = await response.json();
+            // data returns just one student data
+            const searchEl = document.getElementById('display-search');
+            const newDiv = document.createElement('div')
+            newDiv.setAttribute('class', 'search-el')
+            searchEl.appendChild(newDiv);
+            Object.entries(data).forEach(([key, value]) => {
+                const newEl = document.createElement('div');
+                // newEl.setAttribute('class', 'search-el')
+                const pOne = document.createElement('p');
+                const pTwo = document.createElement('p');
+                pOne.textContent = key;
+                pTwo.textContent = value;
+                newEl.append(pOne, pTwo);
+                newDiv.append(newEl);
+            })
+  
+        } catch (error) {
+            
+        }
     }
     
     const searchBtn = document.getElementById('search-form');
@@ -162,3 +175,13 @@ const logOut = document.getElementById('logout');
         console.log(error.message);
     }
  }
+
+ document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+        const searchBtn = document.getElementById('display-search');
+        if (searchBtn.hasChildNodes()) {
+            const searchEl = document.querySelector('.search-el');
+            searchEl.remove();
+        }
+    }
+ })
