@@ -121,10 +121,10 @@ input[type=text], input[type=password]{
     display: flex;
     gap: 2rem;
   }
-  /* .first-half {
-    width: 50%;
+  .first-half {
+    position: relative;
 }
-.second-half {
+/* .second-half {
     width: 50%;
 } */
 .form-row label{

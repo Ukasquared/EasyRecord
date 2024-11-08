@@ -199,3 +199,8 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(error.message);
     }
  }
+
+ const searchBtn = document.querySelector('search-btn');
+ searchBtn.addEventListener('submit', function (e) {
+
+ })
