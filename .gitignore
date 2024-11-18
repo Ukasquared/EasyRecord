@@ -1,1 +1,5 @@
 node_modules
+myvenv
+.vscode
+__pycache__
+

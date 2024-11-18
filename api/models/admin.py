@@ -13,6 +13,7 @@ class Admin(BaseModel, Base):
     course = relationship("Course", back_populates="admin")
     student = relationship("Student", back_populates="admin")
     teacher = relationship("Teacher", back_populates="admin")
+    parent = relationship('Parent', back_populates='admin')
 
     def __repr__(self) -> str:
         return f"<Class name: {self.__class__.__name__}>"
