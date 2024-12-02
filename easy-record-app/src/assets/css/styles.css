@@ -1,0 +1,13 @@
+.logo {
+    color: #ffffff;
+    font-size: 2rem;
+}
+
+.hero-bg {
+    width: 200px;
+    height: 200px;
+    background-image: url('image.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
