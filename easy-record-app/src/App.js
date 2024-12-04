@@ -1,6 +1,6 @@
 import { useRoutes } from "react-router-dom";
 import Themeroutes from "./routes/Router";
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 const App = () => {

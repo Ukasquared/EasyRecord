@@ -3,11 +3,42 @@
     font-size: 2rem;
 }
 
-.hero-bg {
-    width: 200px;
-    height: 200px;
-    background-image: url('image.svg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+.hero {
+    position: relative;
+}
+.nav-colapse {
+    /* flex-grow: 0; */
+    padding: 0 8rem;
+
+}
+.nav-padding {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+.nav-padding a {
+    color: #ffffff;
+    font-size: 1.2rem;
+}
+
+.img-container {
+position: absolute;
+width: 100%;
+}
+
+.img-container img {
+    width: 100%;
+}
+
+.hero-note {
+    position: absolute;
+    top: 15rem;
+}
+
+.hero-note p {
+    color: #ffffff;
+}
+
+.hero-img img {
+    width: 40rem;
 }

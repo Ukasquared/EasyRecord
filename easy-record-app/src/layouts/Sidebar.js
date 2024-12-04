@@ -9,6 +9,7 @@ const navigation = [
     href: "/starter",
     icon: "bi bi-speedometer2",
   },
+  // add other links pertaining to admin, teacher and parent
 ];
 
 const Sidebar = () => {

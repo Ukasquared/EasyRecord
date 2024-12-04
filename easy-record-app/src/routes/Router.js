@@ -1,5 +1,9 @@
+//import { element } from "prop-types";
 import { lazy } from "react";
 import { Navigate } from "react-router-dom";
+
+/**** Home Page */
+const Home = lazy(() => import("../layouts/Home.jsx"));
 
 /****Layouts*****/
 const FullLayout = lazy(() => import("../layouts/FullLayout.js"));
@@ -12,6 +16,10 @@ const About = lazy(() => import("../views/About.js"));
 /*****Routes******/
 
 const ThemeRoutes = [
+  {
+    path: "/",
+    element: <Home />
+  },
   {
     path: "/",
     element: <FullLayout />,

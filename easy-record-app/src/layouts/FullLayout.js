@@ -13,7 +13,8 @@ const FullLayout = () => {
         <aside className="sidebarArea shadow" id="sidebarArea">
           <Sidebar />
         </aside>
-        {/********Content Area**********/}
+        {/****
+         * ****Content Area**********/}
         <div className="contentArea">
           {/********Middle Content**********/}
           <Container className="p-4" fluid>
